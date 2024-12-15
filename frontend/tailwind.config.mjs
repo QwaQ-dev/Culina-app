@@ -7,9 +7,22 @@ export default {
   ],
   theme: {
     extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+      backgroundImage: {
+        'gradient-to-hover': 'linear-gradient(#F4F3E5, #F4F3E5)',
+      },
+      colors:{
+        nedoblack: "#2c2c2c",
+        nedowhite: "#F4F3E5",
+        nedoorange: "#FFD889",
+      },
+      keyframes: {
+        'fill-center': {
+          '0%': { 'background-size': '0% 0%' },
+          '100%': { 'background-size': '100% 100%' },
+        },
+      },
+      animation: {
+        'fill-center': 'fill-center 0.5s forwards',
       },
     },
   },

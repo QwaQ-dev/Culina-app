@@ -7,12 +7,9 @@ const montserrat = Montserrat({
 })
 
 export default function RootLayout({ children }) {
-
-
-  
   return (
-    <html lang="en" className={montserrat.className}>
-      <body>
+    <html lang="en" className={montserrat.className} >
+      <body className="bg-nedowhite">
         {children}
       </body>
     </html>
