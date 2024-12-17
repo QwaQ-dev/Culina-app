@@ -8,14 +8,14 @@ import "../globals.css";
 //   subsets: ['latin'],
 // })
 
-export default function AuthLayout({ children, lastcomp, where }) {
+export default function AuthLayout({ children, lastcomp, where, isFixed}) {
  
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="bg-nedowhite flex flex-col min-h-svh" suppressHydrationWarning>
+      <body className="bg-nedowhite flex flex-col min-h-svh font-montserrat" suppressHydrationWarning>
         <Header lastcomp={lastcomp} where={where}/>
         {children}
-        <Footer/>
+        <Footer isFixed={isFixed}/>
       </body>
     </html>
   );

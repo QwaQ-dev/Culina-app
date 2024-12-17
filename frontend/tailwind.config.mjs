@@ -15,6 +15,10 @@ export default {
         nedowhite: "#F4F3E5",
         nedoorange: "#FFD889",
       },
+      fontFamily:{
+        recursive: ["Recursive"],
+        montserrat:["Montserrat"],
+      },
       keyframes: {
         'fill-center': {
           '0%': { 'background-size': '0% 0%' },
@@ -22,7 +26,7 @@ export default {
         },
       },
       animation: {
-        'fill-center': 'fill-center 0.5s forwards',
+        'fill-center': 'fill-center 0.3s forwards',
       },
     },
   },
