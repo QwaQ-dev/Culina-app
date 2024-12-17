@@ -1,10 +1,19 @@
 import AuthLayout from "../auth-layout.js"
+import { Montserrat } from "next/font/google";
+
+
+
+const montserrat = Montserrat({
+    subsets: ['latin'],
+  });
+
+
 
 export default function SignIn() {
     const sign_up = "Sign up"
     return (
-            <AuthLayout lastcomp={sign_up} where={"/sign-up"}>
-                <main className = "flex flex-row justify-center max-h-lvh items-center mx-auto px-10">
+            <AuthLayout lastcomp={sign_up} where={"/sign-up"} className="font-montserrat" isFixed={true}>
+                <main className = "flex flex-row justify-center  items-center mx-auto px-10">
                     <div className="left-side w-1/2">
                         <h2 className="text-center text-6xl font-bold ">Sign In</h2>
                         <form action="POST " className="flex flex-col text-xl items-center gap-5 mt-10">
