@@ -1,8 +1,7 @@
 const Router = require("express");
+const UsersController = require("../controllers/userController");
 const router = new Router();
 
-router.get('/', ()=>{
-    console.log('123')
-})
+router.get('/users/:id}', UsersController.getUser);
 
 module.exports = router;
