@@ -1,17 +1,4 @@
-<<<<<<< Updated upstream
 import AuthLayout from "../auth-layout";
-=======
-// TODO MAKE AUTH PAGES UNVAILABLE WHEN HAVE TOKEN
-// TODO ADD E-MAIL ADRESS CHECKER
-
-"use client"
-import { useState } from "react";
-import AuthLayout from "../auth-layout";
-import {handlerSignUp} from "@/app/api/auth/signup";
-import { useRouter } from "next/navigation";
-
-
->>>>>>> Stashed changes
 import { Montserrat } from "next/font/google";
 
 
@@ -21,8 +8,6 @@ const montserrat = Montserrat({
 
 
 export default function SignIn() {
-<<<<<<< Updated upstream
-=======
     const [name, setName] = useState("");
     const [e_mail, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -53,7 +38,6 @@ export default function SignIn() {
         }
     }
     
->>>>>>> Stashed changes
 
     
 
