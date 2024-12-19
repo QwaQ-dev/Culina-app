@@ -21,7 +21,7 @@ class UsersController{
             
             const tokenData = {
                 time: Date(),
-                user: user.rows[0],
+                user: username,
             };
 
             const token = jwt.sign(tokenData, secretKey);
