@@ -1,7 +1,9 @@
+"use client"
 import AuthLayout from "../auth-layout";
+import {handlerSignUp} from "@/app/api/auth/signup";
 import { Montserrat } from "next/font/google";
 import { useState } from "react";
-import { handlerSignUp } from "@/app/api/auth/signup";
+
 
 const montserrat = Montserrat({
     subsets: ['latin'],
