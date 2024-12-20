@@ -21,7 +21,7 @@ class UsersController{
             
             const tokenData = {
                 time: Date(),
-                user: user.rows[0].username,
+                user: username,
             };
 
             const token = jwt.sign(tokenData, secretKey);
@@ -56,7 +56,6 @@ class UsersController{
         const token = jwt.sign(tokenData, secretKey);
     
         return res.status(200).json({ JWT: token });
-    
     }
 
 }
