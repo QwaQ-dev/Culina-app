@@ -1,5 +1,5 @@
 export default function Footer(props) {
-    let classes = "w-screen border-t-2  border-black flex flex-row justify-between px-7  text-sm sm:text-base bottom-0 left-0";
+    let classes = "w-full border-t-2  border-black flex flex-row justify-between px-7  text-sm sm:text-base bottom-0 left-0";
     if(props.isFixed){
         classes+=" fixed ";
     }
