@@ -17,11 +17,14 @@ class UsersController{
         if(user.rows.length >= 1) {
             res.status(500).json({message: "User with this name is already exists"});
         } else {
-            const postUser = await db.query("INSERT INTO dev.users (e_mail, username, password) VALUES  ($1, $2, $3)", [e_mail, username, hashedPassword]) ;
+            const postUser = await db.query("INSERT INTO dev.users (e_mail, username, password, role) VALUES  ($1, $2, $3, $4)", [e_mail, username, hashedPassword, 'Basic']) ;
             
             const tokenData = {
                 time: Date(),
-                user: username,
+                user: JSON.stringify({
+                    "username": username,
+                    "role": "Basic",
+                }),
             };
 
             const token = jwt.sign(tokenData, secretKey);
@@ -50,7 +53,10 @@ class UsersController{
 
         const tokenData = {
             time: Date(),
-            user: user.rows[0].username,
+            user: JSON.stringify({
+                "username": user.rows[0].username,
+                "role": user.rows[0].role
+            }),
         };
 
         const token = jwt.sign(tokenData, secretKey);
