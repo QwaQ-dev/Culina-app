@@ -3,9 +3,7 @@ import AuthLayout from "../auth-layout.js"
 import { handlerSignIn } from "@/app/api/auth/signup.js";
 import { Montserrat } from "next/font/google";
 import { useState } from "react";
-import {useRouter} from "next/navigation";
-
-
+import { useRouter } from "next/navigation"
 
 
 const montserrat = Montserrat({
