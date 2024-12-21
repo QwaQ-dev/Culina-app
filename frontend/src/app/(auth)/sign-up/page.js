@@ -1,7 +1,9 @@
+"use client"
 import AuthLayout from "../auth-layout";
 import { Montserrat } from "next/font/google";
 import { useState } from "react";
 import { handlerSignUp } from "@/app/api/auth/signup";
+import { useRouter } from "next/navigation";
 
 const montserrat = Montserrat({
     subsets: ['latin'],
@@ -22,7 +24,7 @@ export default function SignIn() {
         setError(null)
 
         try {
-            if(!name || !password){
+            if(!e_mail || !name || !password){
                 setError("All fields should be filled")
             }
             const response = await handlerSignUp(name, e_mail, password);
