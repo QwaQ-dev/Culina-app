@@ -10,8 +10,8 @@ class ReceiptController{
         const {name, descr, diff, filters, author} = req.body;
         const images = req.files;
         
-        res.status(500).json({name, descr, diff, filters, author, images})
-
+        res.status(200).json({images})
+        
     };  
 
     async getOneReceipt(req, res){
