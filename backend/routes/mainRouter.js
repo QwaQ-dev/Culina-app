@@ -28,6 +28,6 @@ router.post('/sign-in', UsersController.signIn);
 router.post('/create-receipt', upload.array("files", 6), CardController.createReceipt);
 
 router.get('/get-receipts', CardController.getAllReceipts);
-router.get('/get-receipt/:id', CardController.getOneReceipt);
+router.get('/get-receipt/:id', CardController.getOneReceipt);   
 
 module.exports = router;
