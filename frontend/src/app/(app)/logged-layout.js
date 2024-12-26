@@ -1,11 +1,16 @@
-export default function Loggedlayout({children}){
+import Header from "../components/Header/Header";
+impo
+
+
+
+
+
+
+export default function Loggedlayout({children, lastcomp}){
     return(
         <html lang="en">
             <body>
-                <div>
-                    <h1>THIS IS LAYOUT</h1>
-                    {children}
-                </div>
+                <Header lastcompo={lastcomp} />
             </body>
 
         </html>

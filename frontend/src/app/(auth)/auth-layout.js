@@ -8,7 +8,7 @@ import "../globals.css";
 //   subsets: ['latin'],
 // })
 
-export default function AuthLayout({ children, lastcomp, where, isFixed}) {
+export default function AuthLayout({ children, lastcomp, isFixed}) {
  
   return (
     <html lang="en" suppressHydrationWarning>
