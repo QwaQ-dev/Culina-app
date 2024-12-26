@@ -1,21 +1,6 @@
 const db = require('../db/db');
 
 class ReceiptController{
-    async allReceipts(req, res){
-        try {
-            const request = await db.query("SELECT * FROM dev.receipts");
-            let receipts = [];
-
-            request.rows.forEach((el) => {
-                receipts.push(el);
-            })
-
-            res.status(200).json(receipts)
-        } catch (error) {
-            res.status(500).json({message: "Error with getting all receipts", error: error.message});
-        }
-    };
-
     async createReceipt(req, res){
         const {name, descr, diff, filters, author} = req.body;
         const imagesUrl = req.images;
@@ -47,6 +32,21 @@ class ReceiptController{
             }
         } catch (error) {
             res.status(500).json({message: "Error with getting card by id", error: error.message});
+        }
+    };
+
+    async allReceipts(req, res){
+        try {
+            const request = await db.query("SELECT * FROM dev.receipts");
+            let receipts = [];
+
+            request.rows.forEach((el) => {
+                receipts.push(el);
+            })
+
+            res.status(200).json(receipts)
+        } catch (error) {
+            res.status(500).json({message: "Error with getting all receipts", error: error.message});
         }
     };
 
