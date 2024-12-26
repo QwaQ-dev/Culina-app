@@ -4,7 +4,11 @@ import Loggedlayout from "../logged-layout.js"
 
 const lastComponent = <div className="flex flex-row gap-5">
                         <div className="border-2 border-black rounded-xl p-2 cursor-pointer">
+<<<<<<< HEAD
                             <a href="#">
+=======
+                            <a href="/">
+>>>>>>> main
                                 <img src="avatars/chef-woman.png" className="w-14" alt="" />
                             </a>
                         </div>

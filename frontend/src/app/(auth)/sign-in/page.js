@@ -3,9 +3,7 @@ import AuthLayout from "../auth-layout.js"
 import { handlerSignIn } from "@/app/api/auth/signup.js";
 import { Montserrat } from "next/font/google";
 import { useState } from "react";
-import {useRouter} from "next/navigation"
-
-
+import { useRouter } from "next/navigation"
 
 
 const montserrat = Montserrat({
@@ -14,8 +12,14 @@ const montserrat = Montserrat({
 
 
 
+const lastComponent = <a href={"/sign-up"}>
+                        <button className="relative inline-block py-2 px-2 sm:py-2 sm:px-6 border-2 rounded-xl border-nedoblack sm:text-2xl 2xl:text-3xl text-nedowhite bg-no-repeat hover:bg-gradient-to-hover bg-center bg-nedoblack transition-colors duration-500 hover:text-nedoblack hover:animate-fill-center hover:border-nedoblack ">
+                            Sign Up
+                        </button>
+                      </a>
+
+
 export default function SignIn() {
-    const sign_up = "Sign up"
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
@@ -41,7 +45,7 @@ export default function SignIn() {
 
     }
     return (
-            <AuthLayout lastcomp={sign_up} where={"/sign-up"} className="font-montserrat" isFixed={true}>
+            <AuthLayout lastcomp={lastComponent} className="font-montserrat" isFixed={true}>
                 <main className = "flex flex-row justify-center  items-center mx-auto sm:px-10 mt-24">
                     <div className="left-side w-1/2 text-center ">
                         <h2 className="text-center text-nowrap text-2xl  sm:text-6xl font-bold ">Sign In</h2>
@@ -57,7 +61,7 @@ export default function SignIn() {
                                 name="name"  
                                 className="py-2 px-4 border-nedoblack border-2 rounded-lg" required/>
                             <input 
-                                type="text" 
+                                type="password" 
                                 placeholder="Password" 
                                 value={password}
                                 onChange = {(e) =>{
