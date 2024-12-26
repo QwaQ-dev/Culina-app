@@ -1,14 +1,15 @@
 const Router = require("express");
-const UsersController = require("../controllers/userController");
-const CardController = require("../controllers/receiptController");
+const UserController = require("../controllers/UserController");
+const CardController = require("../controllers/ReceiptController");
 const router = new Router();
 const UploadImages  = require('../multer/UploadImages')
 
-router.post('/sign-up', UploadImages.uploadUserAvatar, UsersController.signUp);
-router.post('/sign-in', UsersController.signIn);
-router.post('/create-receipt', CardController.createReceipt);
+router.post('/sign-up', UserController.signUp);
+router.post('/sign-in', UserController.signIn);
+router.post('/create-receipt', UploadImages.uploadReceiptImages, CardController.createReceipt);
 
-router.get('/get-receipts', CardController.getAllReceipts);
-router.get('/get-receipt/:id', CardController.getOneReceipt);   
+router.get('/dashboard/receipts', CardController.allReceipts);
+router.get('/dashboard/receipt/:id', CardController.oneReceipt); 
+router.get('/profile/receipts/:author', CardController.userReceipts);   
 
 module.exports = router;

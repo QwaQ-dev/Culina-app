@@ -8,23 +8,18 @@ dotenv.config();
 class UsersController{
     async signUp(req, res) {
         const {e_mail, username, password} = req.body;
-        const avatar = req.file;
-
-        if(!avatar){
-            return res.status(400).json({message:"Avatar is required!"});
-        }
-
+        
         const secretKey = process.env.SECRET_KEY;
         const hashedPassword = createHmac.createHash('sha256', secretKey)
                                          .update(password)
-                                         .digest('hex')
+                                         .digest('hex');
 
         try {
             const user = await db.query("SELECT * FROM dev.users WHERE username = $1", [username]);
             if(user.rows.length >= 1) {
                 res.status(500).json({message: "User with this name is already exists"});
             } else {
-                await db.query("INSERT INTO dev.users (e_mail, username, password, role, sex) VALUES  ($1, $2, $3, $4, $5)", 
+                await db.query("INSERT INTO dev.users (e_mail, username, password, role, sex) VALUES ($1, $2, $3, $4, $5)", 
                                 [e_mail, username, hashedPassword, 'Basic', 'male']) ;
 
                 const token = jwt.sign({username, role: "Basic", sex: "male"}, secretKey);

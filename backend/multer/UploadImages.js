@@ -15,12 +15,12 @@ const avatarStorage = multer.diskStorage({
     filename: (req, file, cb) => {
         cb(null, file.originalname);
     }
-})
+});
 
 const receiptsImagesStorage = multer.diskStorage({
     destination: async (req, file, cb) => {
-        const username = req.body.username;
-        const path = `users/${username}/receipts-images/`
+        const author = req.body.author;
+        const path = `../uploads/users/${author}/receipts-images/`
         try {
             await fs.ensureDir(path);
             cb(null, path);
@@ -31,7 +31,7 @@ const receiptsImagesStorage = multer.diskStorage({
     filename: (req, file, cb) => {
         cb(null, file.originalname);
     }
-})
+});
 
 const fileFilter = (req, file, cb) => {
     if(file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === "image/jpeg"){
@@ -67,8 +67,18 @@ const uploadReceiptImagesMiddleware = uploadImages.array("receiptImages", 5);
 const uploadReceiptImages = (req, res, next) => {
     uploadReceiptImagesMiddleware(req, res, (err) => {
         if(err){
-            return res.status(500).json({message: "Error uploading receipt images!", error: err.message});
+            return res.status(500).json({
+                message: "Error uploading receipt images!", 
+                error: err.message});
         }
+        let images = {};
+
+        req.files.forEach((el, index) => {
+            const url = `${el.destination}${el.filename}`;
+            images[index + 1] = url;
+        })
+    
+        req.images = images;
         next();
     })
 };
