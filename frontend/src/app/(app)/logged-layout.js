@@ -1,10 +1,15 @@
-export default function Loggedlayout({children}){
+import Footer from "../components/Footer/Footer";
+import Header from "../components/Header/Header";
+import "../globals.css";
+
+export default function Loggedlayout({children, lastcomp}){
     return(
         <html lang="en">
             <body>
                 <div>
-                    <h1>THIS IS LAYOUT</h1>
+                    <Header lastcomp={lastcomp}/>
                     {children}
+                    <Footer isFixed={true}/>
                 </div>
             </body>
 
