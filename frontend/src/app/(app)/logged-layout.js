@@ -1,18 +1,3 @@
-<<<<<<< HEAD
-import Footer from "../components/Footer/Footer";
-import Header from "../components/Header/Header";
-import "../globals.css";
-
-export default function Loggedlayout({children, lastcomp}){
-    return(
-        <html lang="en">
-            <body>
-                <div>
-                    <Header lastcomp={lastcomp}/>
-                    {children}
-                    <Footer isFixed={true}/>
-                </div>
-=======
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import { Montserrat } from "next/font/google";
@@ -24,15 +9,14 @@ const montserrat = Montserrat({
   })
 
 
-export default function Loggedlayout({children, lastcomp}){
+export default function Loggedlayout({children, lastcomp, isFixed}){
     
     return(
         <html lang="en">
             <body className="bg-nedowhite font-montserrat">
-                <Header lastcomp={lastcomp}/>
+                <Header lastcomp={lastcomp} />
                 {children}
-                <Footer isFixed={true}/>
->>>>>>> main
+                <Footer className="" isFixed={isFixed}/>
             </body>
 
         </html>
