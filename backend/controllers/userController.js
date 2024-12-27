@@ -1,5 +1,5 @@
 const db = require("../db/db");
-const { User } = require("../db/db");
+const { User } = require("../models/models")
 const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
@@ -21,18 +21,11 @@ class UsersController{
         const hashedPassword = await bcrypt.hash(password, 5);
 
         try {
-            const user = await db.query("SELECT * FROM dev.users WHERE username = $1", [username]);
+            await User.create({e_mail, username, hashedPassword, role: 'Basic', sex: 'male'});
+            
+            const token = generateJwt(username, 'Basic', 'male');
 
-            if(user.rows.length >= 1) {
-                return res.status(500).json({message: "User with this name is already exists"});
-            } else {
-                await db.query("INSERT INTO dev.users (e_mail, username, password, role, sex) VALUES ($1, $2, $3, $4, $5)", 
-                                [e_mail, username, hashedPassword, 'Basic', 'male']) ;
-
-                const token = generateJwt(username, 'Basic', 'male');
-
-                return res.status(200).json({'JWT': token});
-            }
+            return res.status(200).json({'JWT': token});
         
         } catch (error) {
             return res.status(500).json({message: "Error signing up", error: error.message});
