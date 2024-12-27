@@ -17,18 +17,22 @@ class UsersController{
         try {
             const user = await db.query("SELECT * FROM dev.users WHERE username = $1", [username]);
             if(user.rows.length >= 1) {
-                res.status(500).json({message: "User with this name is already exists"});
+                return res.status(500).json({message: "User with this name is already exists"});
             } else {
                 await db.query("INSERT INTO dev.users (e_mail, username, password, role, sex) VALUES ($1, $2, $3, $4, $5)", 
                                 [e_mail, username, hashedPassword, 'Basic', 'male']) ;
 
-                const token = jwt.sign({username, role: "Basic", sex: "male"}, secretKey);
+                const token = jwt.sign(
+                    {username, role: "Basic", sex: "male"}, 
+                    secretKey, 
+                    {expiresIn: "12h"}
+                );
 
-                res.status(200).json({'JWT': token});
+                return res.status(200).json({'JWT': token});
             }
         
         } catch (error) {
-            res.status(500).json({message: "Error signing up", error: error.message});
+            return res.status(500).json({message: "Error signing up", error: error.message});
         }
     }
 
@@ -59,7 +63,10 @@ class UsersController{
             }),
         };
 
-        const token = jwt.sign(tokenData, secretKey);
+        const token = jwt.sign(
+            tokenData, 
+            secretKey,
+            {expiresIn: "12h"});
     
         return res.status(200).json({ JWT: token });
     }
@@ -70,9 +77,9 @@ class UsersController{
         try {
             await db.query("UPDATE dev.users SET username = $1 WHERE username = $2",
                 [newUsername, prevUsername]);
-            res.status(200).json({message: "Username has been changed!"});
+            return res.status(200).json({message: "Username has been changed!"});
         } catch (error) {
-            res.status(500).json({message: "Cannot change username", error: error.message});
+            return res.status(500).json({message: "Cannot change username", error: error.message});
         }
     }
 
@@ -92,12 +99,12 @@ class UsersController{
             try {
                 await db.query("UPDATE dev.users SET password = $1 WHERE username = $2",
                     [newHashedPassword, username]);
-                res.status(200).json({message: "Password has been changed!"});
+                return res.status(200).json({message: "Password has been changed!"});
             } catch (error) {
-                res.status(500).json({message: "Cannot change user password", error: error.message});
+                return res.status(500).json({message: "Cannot change user password", error: error.message});
             }
         } else {
-            res.status(500).json({message: "Password is incorrect"})
+            return res.status(500).json({message: "Password is incorrect"})
         }
     }
 
@@ -105,14 +112,14 @@ class UsersController{
         const { username, prevSex, newSex } = req.body;
 
         if(prevSex === newSex) {
-            res.status(500).json({message: `Your sex is already ${newSex}`});
+            return res.status(500).json({message: `Your sex is already ${newSex}`});
         } else {
             try {
                 await db.query("UPDATE dev.users SET sex = $1 WHERE username = $2",
                     [newSex, username]);
-                res.status(200).json({message: "Sex has been changed!"});
+                return res.status(200).json({message: "Sex has been changed!"});
             } catch (error) {
-                res.status(500).json({message: "Cannot change user sex", error: error.message});
+                return res.status(500).json({message: "Cannot change user sex", error: error.message});
             }
         }
     }
