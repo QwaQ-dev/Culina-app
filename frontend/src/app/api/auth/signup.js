@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function handlerSignUp(e_mail, username, password){
     try{
-        const response = await axios.post("http://localhost:8080/sign-up", {
+        const response = await axios.post("http://localhost:8080/api/v1/sign-up", {
             e_mail,
             username,
             password,
@@ -16,7 +16,7 @@ export async function handlerSignUp(e_mail, username, password){
 
 export async function handlerSignIn(username, password){
     try{
-        const response = await axios.post("http://localhost:8080/sign-in",{
+        const response = await axios.post("http://localhost:8080/api/v1/sign-in",{
             username,
             password,
         })
