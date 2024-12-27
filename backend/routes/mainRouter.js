@@ -1,33 +1,20 @@
 const Router = require("express");
-const UsersController = require("../controllers/userController");
-const CardController = require("../controllers/receiptController");
+const UserController = require("../controllers/UserController");
+const CardController = require("../controllers/ReceiptController");
 const router = new Router();
-const multer = require("multer")
+const UploadImages  = require('../multer/UploadImages')
 
-const storageCongfig = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "receipts-images");
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-})
+router.post('/sign-up', UserController.signUp);
+router.post('/sign-in', UserController.signIn);
 
-const fileFilter = (req, file, cb) => {
-    if(file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === "image/jpeg"){
-        cb(null, true)
-    } else {
-        cb(null, false)
-    }
-}
+router.post('/profile/username', UserController.newUsername);
+router.post('/profile/password', UserController.newPassword);
+router.post('/profile/sex', UserController.newSex);
+router.get('/profile/receipts/:author', CardController.userReceipts); 
 
-const upload = multer({storage:storageCongfig, fileFilter: fileFilter});
+router.post('/create-receipt', UploadImages.uploadReceiptImages, CardController.createReceipt);
 
-router.post('/sign-up', UsersController.signUp);
-router.post('/sign-in', UsersController.signIn);
-router.post('/create-receipt', upload.array("files", 6), CardController.createReceipt);
-
-router.get('/get-receipts', CardController.getAllReceipts);
-router.get('/get-receipt/:id', CardController.getOneReceipt);
+router.get('/dashboard/receipts', CardController.allReceipts);
+router.get('/dashboard/receipt/:id', CardController.oneReceipt);   
 
 module.exports = router;
