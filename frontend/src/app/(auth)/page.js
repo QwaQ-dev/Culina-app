@@ -10,9 +10,15 @@ const recursive = Recursive({
     variable:"--font-recursive",
 });
 
+const lastcomponent = <a href={"/sign-up"}>
+                        <button className="relative inline-block py-2 px-2 sm:py-2 sm:px-6 border-2 rounded-xl border-nedoblack sm:text-2xl 2xl:text-3xl text-nedowhite bg-no-repeat hover:bg-gradient-to-hover bg-center bg-nedoblack transition-colors duration-500 hover:text-nedoblack hover:animate-fill-center hover:border-nedoblack ">
+                            Get Started
+                        </button>
+                      </a>
+
 export default function WelcomePage() {
     return(
-        <AuthLayout lastcomp={"Get Started"} where="/sign-up" className="font-montserrat fixed">
+        <AuthLayout lastcomp={lastcomponent} className="font-montserrat fixed">
             <div className="top-main flex  flex-col justify-center items-center gap-10 my-36">
                 <div className="upper">
                     <h2 className="text-xl lg:text-5xl  2xl:text-7xl font-semibold tracking-widest ">Try.Learn.Repeat.</h2>

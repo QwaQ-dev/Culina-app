@@ -9,8 +9,13 @@ const montserrat = Montserrat({
     subsets: ['latin'],
   });
 
+const lastComponent = <a href={"/sign-in"}>
+                        <button className="relative inline-block py-2 px-2 sm:py-2 sm:px-6 border-2 rounded-xl border-nedoblack sm:text-2xl 2xl:text-3xl text-nedowhite bg-no-repeat hover:bg-gradient-to-hover bg-center bg-nedoblack transition-colors duration-500 hover:text-nedoblack hover:animate-fill-center hover:border-nedoblack ">
+                            Sign Up
+                        </button>
+                      </a>
 
-export default function SignIn() {
+export default function SignUp() {
     const [name, setName] = useState("");
     const [e_mail, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -27,7 +32,7 @@ export default function SignIn() {
             if(!e_mail || !name || !password){
                 setError("All fields should be filled")
             }
-            const response = await handlerSignUp(name, e_mail, password);
+            const response = await handlerSignUp(e_mail, name, password);
             if (response.data.JWT){
                 localStorage.setItem("token", response.data.JWT);
                 router.push("/dashboard");
@@ -41,12 +46,8 @@ export default function SignIn() {
         }
     }
     
-
-    
-
-    const sign_in = "Sign in"
     return (
-        <AuthLayout lastcomp={sign_in} where={"/sign-in"} className="font-montserrat" isFixed={true}>
+        <AuthLayout lastcomp={lastComponent} className="font-montserrat" isFixed={true}>
            <main className = "flex flex-row justify-center  items-center mx-auto sm:px-16 ">
                 <div className="left-side hidden sm:flex w-1/2 flex-justify-center items-center">
                     <img src="gifs/signup.gif" className = "w-[50rem]" alt="" />
@@ -71,7 +72,7 @@ export default function SignIn() {
                             name="name"  
                             className="py-2 px-4 border-nedoblack border-2 rounded-lg" required/>
                         <input 
-                            type="text" 
+                            type="password" 
                             value = {password}
                             onChange={(e) =>{setPassword(e.target.value)}}
                             placeholder="Password" 
