@@ -1,12 +1,14 @@
 "use client"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 
 import Slider from "@/app/components/Slider/Slider.js"
-import Loggedlayout from "../logged-layout.js"
+import Loggedlayout from "../logged-layout.jsx"
 import Card from "@/app/components/Card/Card.js"
 import Filter from "@/app/components/Filter/Filter.js"
+import { getAllCards } from "@/app/api/cards/getCard/getAllCards.js"
 
+import axios from "axios"
 
 const lastComponent = <div className="flex flex-row gap-5">
                         <div className=" border-black rounded-xl p-2 cursor-pointer">
@@ -57,6 +59,25 @@ const inside = [
 
 export default function dashboard(){
     const [sort, setSort] = useState(false)
+    const [cards, setCards] = useState([])
+    "../../../../../uploads/users/1232r1est1/receipt-images/"
+    useEffect(()=>{
+        const fetchData = async() => {
+            try{
+                const response = await getAllCards();
+                console.log(response.data[0].imgs[1])
+                setCards(response.data)
+            }catch(err){
+                console.log(err)
+            }
+
+
+        };
+
+        fetchData()
+        console.log(cards)
+
+    },[])
     
 
     return(
@@ -116,13 +137,15 @@ export default function dashboard(){
                 </div>
 
                     
-                    <div className="mx-auto flex flex-row flex-wrap p-10 w-full flex-grow items-start">
-                        
+                    <div className="mx-auto flex flex-row flex-wrap p-9 w-full flex-grow items-start">
                         <div className="flex flex-row flex-wrap gap-10 w-full">
+                            {cards.map(({id, imgs, name, diff, author })=>{
+                                return <Card key={id} image={`../../../../${imgs[1]}`} name={name} rate={diff} author={author}/>
+                            })}
+                            {/* <Card image={"meals/carbonara.png"} name={"Carbonara"} rate={"5"} author={"Rick James"} />
                             <Card image={"meals/carbonara.png"} name={"Carbonara"} rate={"5"} author={"Rick James"} />
                             <Card image={"meals/carbonara.png"} name={"Carbonara"} rate={"5"} author={"Rick James"} />
-                            <Card image={"meals/carbonara.png"} name={"Carbonara"} rate={"5"} author={"Rick James"} />
-                            <Card image={"meals/carbonara.png"} name={"Carbonara"} rate={"5"} author={"Rick James"} />
+                            <Card image={"meals/carbonara.png"} name={"Carbonara"} rate={"5"} author={"Rick James"} /> */}
                         </div>
                     </div>
                 </div>
