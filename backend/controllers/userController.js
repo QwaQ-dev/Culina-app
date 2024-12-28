@@ -53,10 +53,10 @@ class UsersController{
             });
         }
 
-        const comparePassword = await bcrypt.compare(password, user[0].password);
+        const comparePassword = await bcrypt.compare(password, user.password);
 
         if(comparePassword) {
-            const token = generateJwt(user[0].username, user[0].role, user[0].sex);
+            const token = generateJwt(user.username, user.role, user.sex);
     
             return res.status(200).json({
                  JWT: token 
