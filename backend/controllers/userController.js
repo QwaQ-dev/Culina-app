@@ -41,7 +41,7 @@ class UsersController{
     async signIn(req, res) {
         const { username, password } = req.body;
     
-        const user = await User.findAll({
+        const user = await User.findOne({
             where: {
                 username: username
             }
@@ -66,6 +66,11 @@ class UsersController{
                 message: "Password is incorrect"
             });
         };
+    }
+
+    async check(req, res) {
+        const token = generateJwt(req.username, req.role, req.sex)
+        return res.status(200).json({token: token})
     }
 
     async newUsername(req, res){
@@ -137,7 +142,8 @@ class UsersController{
                     sex: 
                         newSex
                     },
-                    {where: {
+                    {
+                        where: {
                         username: username,
                     }
                 })
