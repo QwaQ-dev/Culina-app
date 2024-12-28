@@ -1,4 +1,4 @@
-const db = require('../db/db');
+const { Receipts } = require("../models/models");
 
 class ReceiptController{
     async createReceipt(req, res){
@@ -9,8 +9,14 @@ class ReceiptController{
             return res.status(500).json({message: "Error uploading images"})
         }
         try {
-            await db.query("INSERT INTO dev.receipts (name, descr, diff, filters, imgs, author) VALUES ($1, $2, $3, $4, $5, $6)",
-                [name, descr, diff, filters, imagesUrl, author]);
+            await Receipts.create({
+                name,
+                descr,
+                diff,
+                filters,
+                imgs: imagesUrl,
+                author: author
+            })
             return res.status(200).json({message: "Receipt add"});
         } catch (error) {
             return res.status(500).json({
@@ -23,12 +29,16 @@ class ReceiptController{
         const id = req.params.id;
 
         try {
-            const request = await db.query("SELECT * FROM dev.receipts WHERE id = $1",
-                                     [id])
-            if(request.rows.length === 0) {
+            const receipt = await Receipts.findOne({
+                where: {
+                    id: id
+                }
+            });
+
+            if(receipt.length === 0) {
                 return res.status(500).json({message: "No receipt with this id"});
             } else {
-                return res.status(200).json(request.rows[0])
+                return res.status(200).json(receipt);
             }
         } catch (error) {
             return res.status(500).json({message: "Error with getting card by id", error: error.message});
@@ -37,12 +47,12 @@ class ReceiptController{
 
     async allReceipts(req, res){
         try {
-            const request = await db.query("SELECT * FROM dev.receipts");
+            const request = await Receipts.findAll();
             let receipts = [];
 
-            request.rows.forEach((el) => {
+            request.forEach((el) => {
                 receipts.push(el);
-            })
+            });
 
             return res.status(200).json(receipts)
         } catch (error) {
@@ -54,14 +64,18 @@ class ReceiptController{
         const author = req.params.author;
 
         try {
-            const request = await db.query("SELECT * FROM dev.receipts WHERE author = $1", [author]);
+            const request = await Receipts.findAll({
+                where: {
+                    author: author
+                }
+            });
 
-            if(request.rows.length === 0){
+            if(request.length === 0){
                 return res.status(500).json({message: "This user has no receipts yet"})
             } else {
                 let receipts = [];
 
-                request.rows.forEach((el) => {
+                request.forEach((el) => {
                     receipts.push(el);
                 });
 

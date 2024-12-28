@@ -8,6 +8,8 @@ const User = sequelize.define('users', {
     password: {type: DataTypes.STRING},
     role: {type: DataTypes.STRING, defaultValue:"Basic"},
     sex: {type: DataTypes.STRING, defaultValue:"male"}
+}, {
+    schema: "dev"
 });
 
 const Receipts = sequelize.define('receipts', {
@@ -18,11 +20,15 @@ const Receipts = sequelize.define('receipts', {
     filters: {type: DataTypes.JSONB},
     imgs: {type: DataTypes.JSONB},
     author: {type: DataTypes.STRING}
+}, {
+    schema: "dev"
 });
 
 const Rating = sequelize.define('rating', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     rate: {type: DataTypes.INTEGER, allowNull: false}
+}, {
+    schema: "dev"
 });
 
 module.exports = {
