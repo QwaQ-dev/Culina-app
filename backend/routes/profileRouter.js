@@ -1,7 +1,7 @@
 const Router = require("express");
 const router = new Router();
 const UserController = require("../controllers/UserController");
-const ReceiptController = require("../controllers/ReceiptController");
+const ReceiptController = require("../controllers/receiptController");
 
 router.post('/username', UserController.newUsername);
 router.post('/password', UserController.newPassword);

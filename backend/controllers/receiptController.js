@@ -15,7 +15,7 @@ class ReceiptController{
                 diff,
                 filters,
                 imgs: imagesUrl,
-                author: author
+                author
             })
             return res.status(200).json({message: "Receipt add"});
         } catch (error) {

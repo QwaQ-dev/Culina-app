@@ -13,6 +13,7 @@ dotenv.config();
 app.use(cors());
 app.use(express.json());
 const uploadsPath = path.resolve(__dirname, '../uploads');
+app.use('/', apiRouter)
 app.use('/uploads', express.static(uploadsPath));
 
 const start = async () => {
