@@ -1,35 +1,37 @@
 const db = require("../db/db");
+const { User } = require("../models/models")
 const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
-const createHmac = require("crypto")
+const bcrypt = require("bcrypt");
 dotenv.config();
 
+
+const generateJwt = (username, role, sex) => {
+    return jwt.sign(
+        {username, role, sex}, 
+        process.env.SECRET_KEY, 
+        {expiresIn: "12h"}
+    );
+};
 
 class UsersController{
     async signUp(req, res) {
         const {e_mail, username, password} = req.body;
 
-        const secretKey = process.env.SECRET_KEY;
-        const hashedPassword = createHmac.createHash('sha256', secretKey)
-                                         .update(password)
-                                         .digest('hex');
+        const hashedPassword = await bcrypt.hash(password, 5);
 
         try {
-            const user = await db.query("SELECT * FROM dev.users WHERE username = $1", [username]);
-            if(user.rows.length >= 1) {
-                return res.status(500).json({message: "User with this name is already exists"});
-            } else {
-                await db.query("INSERT INTO dev.users (e_mail, username, password, role, sex) VALUES ($1, $2, $3, $4, $5)", 
-                                [e_mail, username, hashedPassword, 'Basic', 'male']) ;
+            await User.create({
+                e_mail, 
+                username, 
+                password: hashedPassword, 
+                role: 'Basic', 
+                sex: 'male'
+            });
+            
+            const token = generateJwt(username, 'Basic', 'male');
 
-                const token = jwt.sign(
-                    {username, role: "Basic", sex: "male"}, 
-                    secretKey, 
-                    {expiresIn: "12h"}
-                );
-
-                return res.status(200).json({'JWT': token});
-            }
+            return res.status(200).json({'JWT': token});
         
         } catch (error) {
             return res.status(500).json({message: "Error signing up", error: error.message});
@@ -39,72 +41,88 @@ class UsersController{
     async signIn(req, res) {
         const { username, password } = req.body;
     
-        const user = await db.query("SELECT * FROM dev.users WHERE username = $1", [username]);
+        const user = await User.findAll({
+            where: {
+                username: username
+            }
+        })
 
-        if (user.rows.length === 0) {
-            return res.status(404).json({ message: "User not found" });
+        if (user.length === 0) {
+            return res.status(404).json({ 
+                message: "User not found" 
+            });
         }
 
-        const storedHashedPassword = user.rows[0].password;
-        const secretKey = process.env.SECRET_KEY;
-        const hashedPassword = createHmac.createHash('sha256', secretKey)
-                                            .update(password)
-                                            .digest('hex');
-        
-        if (hashedPassword !== storedHashedPassword) {
-            return res.status(401).json({ message: "Incorrect password" });
-        }
+        const comparePassword = await bcrypt.compare(password, user[0].password);
 
-        const tokenData = {
-            user: JSON.stringify({
-                "username": user.rows[0].username,
-                "role": user.rows[0].role,
-                "sex": user.rows[0].sex,
-            }),
-        };
-
-        const token = jwt.sign(
-            tokenData, 
-            secretKey,
-            {expiresIn: "12h"});
+        if(comparePassword) {
+            const token = generateJwt(user[0].username, user[0].role, user[0].sex);
     
-        return res.status(200).json({ JWT: token });
+            return res.status(200).json({
+                 JWT: token 
+                });
+        } else {
+            return res.status(500).json({
+                message: "Password is incorrect"
+            });
+        };
     }
 
     async newUsername(req, res){
         const { prevUsername, newUsername } = req.body;
 
-        try {
-            await db.query("UPDATE dev.users SET username = $1 WHERE username = $2",
-                [newUsername, prevUsername]);
-            return res.status(200).json({message: "Username has been changed!"});
-        } catch (error) {
-            return res.status(500).json({message: "Cannot change username", error: error.message});
+        if(prevUsername === newUsername) {
+            return res.status(500).json({message: `Your name is already ${prevUsername}`})
+        } else {
+            try {
+                await User.update({
+                    username: newUsername
+                }, 
+                {
+                    where: {
+                        username: prevUsername
+                    }
+                })
+                return res.status(200).json({message: "Username has been changed!"});
+            } catch (error) {
+                return res.status(500).json({message: "Cannot change username", error: error.message});
+            }
         }
     }
 
     async newPassword(req, res){
         const { username, prevPassword, newPassword } = req.body;
-        const secretKey = process.env.SECRET_KEY;
-        const passwordFromDb = await db.query("SELECT password FROM dev.users WHERE username = $1", [username]);
+        try {
+            const password = await User.findOne({
+                where: {
+                    username: username
+                }
+            })
+            const comparePassword = await bcrypt.compare(prevPassword, password[0].password);
 
-        const hashedPassword = createHmac.createHash('sha256', secretKey)
-                                                    .update(prevPassword)
-                                                    .digest('hex');
-        const newHashedPassword = createHmac.createHash('sha256', secretKey)
-                                                        .update(newPassword)
-                                                        .digest('hex');
+            if(comparePassword){
+                const newHashedPassword = await bcrypt.hash(newPassword, 5);
 
-        if(passwordFromDb.rows[0].password == hashedPassword) {
-            try {
-                await db.query("UPDATE dev.users SET password = $1 WHERE username = $2",
-                    [newHashedPassword, username]);
-                return res.status(200).json({message: "Password has been changed!"});
-            } catch (error) {
-                return res.status(500).json({message: "Cannot change user password", error: error.message});
+                await User.update({
+                    password: newHashedPassword
+                }, 
+                {
+                    where: {
+                        username: username,
+                    }
+                });
+                return res.status(200).json({
+                    message: "Password has been changed!"
+                });
+            } else {
+                return res.status(500).json({
+                    message: "Password is incorrect"
+                });
             }
-        } else {
-            return res.status(500).json({message: "Password is incorrect"})
+        } catch (error) {
+            return res.status(500).json({
+                message: "Cannot change user password", error: error.message
+            });
         }
     }
 
@@ -115,8 +133,14 @@ class UsersController{
             return res.status(500).json({message: `Your sex is already ${newSex}`});
         } else {
             try {
-                await db.query("UPDATE dev.users SET sex = $1 WHERE username = $2",
-                    [newSex, username]);
+                await User.update({
+                    sex: 
+                        newSex
+                    },
+                    {where: {
+                        username: username,
+                    }
+                })
                 return res.status(200).json({message: "Sex has been changed!"});
             } catch (error) {
                 return res.status(500).json({message: "Cannot change user sex", error: error.message});

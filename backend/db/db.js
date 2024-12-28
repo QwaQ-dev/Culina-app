@@ -1,11 +1,7 @@
-const Pool = require('pg').Pool;
+const { Sequelize } = require("sequelize");
+const dotenv = require('dotenv');
+dotenv.config();
 
-const pool = new Pool({
-    user: 'postgres',
-    password: 'postgres',
-    host: 'localhost',
-    port: 5432,
-    database: 'Culina-app'
-});
+const sequelize = new Sequelize(`postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`)
 
-module.exports = pool;
+module.exports = sequelize;
