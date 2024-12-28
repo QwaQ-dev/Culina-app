@@ -41,7 +41,7 @@ class UsersController{
     async signIn(req, res) {
         const { username, password } = req.body;
     
-        const user = await User.findAll({
+        const user = await User.findOne({
             where: {
                 username: username
             }
