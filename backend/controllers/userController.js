@@ -68,6 +68,11 @@ class UsersController{
         };
     }
 
+    async check(req, res) {
+        const token = generateJwt(req.username, req.role, req.sex)
+        return res.status(200).json({token: token})
+    }
+
     async newUsername(req, res){
         const { prevUsername, newUsername } = req.body;
 
@@ -137,7 +142,8 @@ class UsersController{
                     sex: 
                         newSex
                     },
-                    {where: {
+                    {
+                        where: {
                         username: username,
                     }
                 })
