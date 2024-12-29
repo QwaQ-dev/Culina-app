@@ -9,29 +9,19 @@ const lastComponent = <div>
 export default function Profile(){
     return(
         <Loggedlayout lastcomp={lastComponent} isFixed={true}>
-           <div className="bg-banner max-w-screen-lg mx-auto rounded-xl p-12">
-                <div className="flex flex-col items-center mx-auto w-full">
-                    <div className="flex w-full  "> 
-                        <div className="flex flex-col justify-center items-center px-6 py-2 text-center font-bold rounded-xl text-sm">
-                            <span>Cooker</span>
-                            <img src="avatars/chef.png" alt="Chef avatar" className="mt-2" /> {/* Добавлено alt и отступ */}
-                        </div>
-                        <div className="text-xl  text-center">
-                            <span>Good morning.<br/> Danil</span> 
-                        </div>
-                    </div>
-                    <div className="w-full mt-4 justify-end"> 
-                        <div className="flex flex-row font-light leading-loose text-xl  justify-end">
-                            <span>19 Posts </span>
-                            <span> </span>
-                            <span> | </span>
-                            <span> </span>
-                            <span> 300 Followers</span>
-                        </div>
-
-                    </div>
+            <div className="relative bg-banner h-80 w-2/3 mx-auto rounded-xl flex flex-row border-black border-2">
+                <div className="absolute bottom-0 left-4 translate-y-1/2">
+                    <img
+                        src="avatars/chef.png"
+                        alt="Avatar"
+                        className="rounded-full w-30 h-30   border-4 border-black"
+                    />
                 </div>
+                <div><h1>2</h1></div>
             </div>
+
+
+
         </Loggedlayout>
     )
 }
