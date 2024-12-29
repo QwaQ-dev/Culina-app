@@ -60,7 +60,6 @@ const inside = [
 export default function dashboard(){
     const [sort, setSort] = useState(false)
     const [cards, setCards] = useState([])
-    "../../../../../uploads/users/1232r1est1/receipt-images/"
     useEffect(()=>{
         const fetchData = async() => {
             try{
@@ -136,11 +135,10 @@ export default function dashboard(){
                     </div>
                 </div>
 
-                    
                     <div className="mx-auto flex flex-row flex-wrap p-9 w-full flex-grow items-start">
                         <div className="flex flex-row flex-wrap gap-10 w-full">
                             {cards.map(({id, imgs, name, diff, author })=>{
-                                return <Card key={id} image={`../../../../${imgs[1]}`} name={name} rate={diff} author={author}/>
+                                return <Card key={id} image={imgs[1]} name={name} rate={diff} author={author}/>
                             })}
                             {/* <Card image={"meals/carbonara.png"} name={"Carbonara"} rate={"5"} author={"Rick James"} />
                             <Card image={"meals/carbonara.png"} name={"Carbonara"} rate={"5"} author={"Rick James"} />

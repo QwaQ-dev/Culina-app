@@ -9,29 +9,34 @@ const lastComponent = <div>
 export default function Profile(){
     return(
         <Loggedlayout lastcomp={lastComponent} isFixed={true}>
-           <div className="bg-banner max-w-screen-lg mx-auto rounded-xl p-12">
-                <div className="flex flex-col items-center mx-auto w-full">
-                    <div className="flex w-full  "> 
-                        <div className="flex flex-col justify-center items-center px-6 py-2 text-center font-bold rounded-xl text-sm">
-                            <span>Cooker</span>
-                            <img src="avatars/chef.png" alt="Chef avatar" className="mt-2" /> {/* Добавлено alt и отступ */}
+            <div className="flex flex-col items-center w-full max-w-3xl mx-auto p-4">
+                <div className="relative w-full h-48 rounded-lg overflow-hidden ">
+                    <img
+                        className="bg-banner w-full h-full object-cover -z-10"
+                    />
+                    <div className="absolute bottom-[-40px] left-4">
+                        <div className="relative w-32 h-32 z-10 md:w-32 md:h-32 border-4 border-white rounded-full overflow-hidden">
+                            <img
+                                src="avatars/chef.png"
+                                alt="Profile"
+                                className="w-full h-full object-cover"
+                            />
+                            <div className="absolute bottom-1 right-1 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                                <img src="avatars/chef.png" alt="" />
+                            </div>
                         </div>
-                        <div className="text-xl  text-center">
-                            <span>Good morning.<br/> Danil</span> 
-                        </div>
-                    </div>
-                    <div className="w-full mt-4 justify-end"> 
-                        <div className="flex flex-row font-light leading-loose text-xl  justify-end">
-                            <span>19 Posts </span>
-                            <span> </span>
-                            <span> | </span>
-                            <span> </span>
-                            <span> 300 Followers</span>
-                        </div>
-
                     </div>
                 </div>
+
+                <div className="mt-16 flex flex-col items-center">
+                    <h2 className="text-lg font-bold">Danil</h2>
+                    <p className="mt-1 text-gray-500">
+                        <span className="font-bold text-black">5897</span> Followers
+                    </p>
+                </div>
             </div>
+
+
         </Loggedlayout>
     )
 }
