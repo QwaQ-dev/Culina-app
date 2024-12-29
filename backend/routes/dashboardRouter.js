@@ -1,5 +1,5 @@
 const Router = require("express");
-const ReceiptController = require("../controllers/ReceiptController");
+const ReceiptController = require("../controllers/receiptController");
 const router = new Router();
 const UploadImages  = require('../multer/UploadImages');
 
