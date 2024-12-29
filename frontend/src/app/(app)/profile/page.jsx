@@ -9,17 +9,32 @@ const lastComponent = <div>
 export default function Profile(){
     return(
         <Loggedlayout lastcomp={lastComponent} isFixed={true}>
-            <div className="relative bg-banner h-80 w-2/3 mx-auto rounded-xl flex flex-row border-black border-2">
-                <div className="absolute bottom-0 left-4 translate-y-1/2">
+            <div className="flex flex-col items-center w-full max-w-3xl mx-auto p-4">
+                <div className="relative w-full h-48 rounded-lg overflow-hidden ">
                     <img
-                        src="avatars/chef.png"
-                        alt="Avatar"
-                        className="rounded-full w-30 h-30   border-4 border-black"
+                        className="bg-banner w-full h-full object-cover -z-10"
                     />
+                    <div className="absolute bottom-[-40px] left-4">
+                        <div className="relative w-32 h-32 z-10 md:w-32 md:h-32 border-4 border-white rounded-full overflow-hidden">
+                            <img
+                                src="avatars/chef.png"
+                                alt="Profile"
+                                className="w-full h-full object-cover"
+                            />
+                            <div className="absolute bottom-1 right-1 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                                <img src="avatars/chef.png" alt="" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div><h1>2</h1></div>
-            </div>
 
+                <div className="mt-16 flex flex-col items-center">
+                    <h2 className="text-lg font-bold">Danil</h2>
+                    <p className="mt-1 text-gray-500">
+                        <span className="font-bold text-black">5897</span> Followers
+                    </p>
+                </div>
+            </div>
 
 
         </Loggedlayout>
