@@ -75,8 +75,8 @@ const uploadReceiptImages = (req, res, next) => {
         let images = {};
 
         req.files.forEach((el, index) => {
-            const url = `uploads/users/${req.body.author}/receipts-imgs/${el.filename}`;
-            images[index + 1] = url;
+            const url = `${el.destination}${el.filename}`;
+            images[index + 1] = url;    
         })
     
         req.images = images;
