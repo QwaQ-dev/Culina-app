@@ -6,15 +6,15 @@ const sequelize = require("./db/db");
 const models = require("./models/models")
 const app = express();
 const PORT = process.env.PORT || 8080;
-const path = require("path")
-
+const uploadImagesMiddleware = require("./middleware/uploadImagesMiddleware");
 
 dotenv.config();
+
 app.use(cors());
+
 app.use(express.json());
-const uploadsPath = path.resolve(__dirname, '../uploads');
-app.use('/', apiRouter)
-app.use('/uploads', express.static(uploadsPath));
+app.use('/uploads/:author/receipts-imgs', uploadImagesMiddleware);
+app.use('/api/v1', apiRouter)
 
 const start = async () => {
     try {
