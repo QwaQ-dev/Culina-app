@@ -17,10 +17,11 @@ const avatarStorage = multer.diskStorage({
     }
 });
 
+
 const receiptsImagesStorage = multer.diskStorage({
     destination: async (req, file, cb) => {
         const author = req.body.author;
-        const path = `uploads/${author}/receipts-imgs/`;
+        const path = `../frontend/public/uploads/users/${author}/receipts-imgs/`
         try {
             await fs.ensureDir(path);
             cb(null, path);
@@ -74,8 +75,8 @@ const uploadReceiptImages = (req, res, next) => {
         let images = {};
 
         req.files.forEach((el, index) => {
-            const url = `${el.destination}${el.filename}`;
-            images[index + 1] = url;    
+            const url = `uploads/users/${req.body.author}/receipts-imgs/${el.filename}`;
+            images[index + 1] = url;
         })
     
         req.images = images;

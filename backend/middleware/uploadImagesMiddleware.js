@@ -2,7 +2,7 @@ const path = require('path');
 
 const uploadImagesMiddleware = (req, res, next) => {
   const author = req.params.author;
-  const filePath = path.join(__dirname, '..', 'uploads', author, 'receipts-imgs', req.url);
+  const filePath = path.join(__dirname, '..', '..', 'frontend', 'public', 'uploads', author, 'receipts-imgs', req.url);
   console.log(filePath)
   res.sendFile(filePath, (err) => {
     if (err) {
