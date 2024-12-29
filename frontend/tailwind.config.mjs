@@ -14,6 +14,8 @@ export default {
         nedoblack: "#2c2c2c",
         nedowhite: "#F4F3E5",
         nedoorange: "#FFD889",
+        banner: "#F7ECCE",
+        
       },
       fontFamily:{
         recursive: ["Recursive"],

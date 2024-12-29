@@ -1,5 +1,5 @@
 "use client"
-import AuthLayout from "../auth-layout.js"
+import AuthLayout from "../auth-layout.jsx"
 import { handlerSignIn } from "@/app/api/auth/signup.js";
 import { Montserrat } from "next/font/google";
 import { useState } from "react";
