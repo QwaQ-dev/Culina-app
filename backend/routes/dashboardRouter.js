@@ -4,6 +4,7 @@ const router = new Router();
 const UploadImages  = require('../multer/UploadImages');
 
 router.post('/create-receipt', UploadImages.uploadReceiptImages, ReceiptController.createReceipt);
+router.get('/search-receipts/:query', ReceiptController.searchReceipts);
 router.get('/receipts', ReceiptController.allReceipts);
 router.get('/receipt/:id', ReceiptController.oneReceipt);   
 
