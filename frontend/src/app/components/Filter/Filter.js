@@ -6,29 +6,29 @@ export default function Filter({ title, content }) {
   const [active, setActive] = useState(false)
 
   return (
-    <div className="accordion-item bg-nedowhite p-4 font-montserrat w-full">
-      <div className="accordion-title cursor-pointer flex justify-between text-xl" onClick={() => { setActive(!active) }}>
-        <div className="font-bold text-2xl">{title}</div>
-        <div className="text-3xl">{active ? "-" : "+"}</div>
+    <div className="accordion-item bg-nedowhite lg:p-4 font-montserrat w-full">
+      <div className="accordion-title cursor-pointer flex justify-between py-2 " onClick={() => { setActive(!active) }}>
+        <div className="font-bold text-xs md:text-base  text-center lg:text-xl">{title}</div>
+        <div className="text-md lg:text-2xl">{active ? "-" : "+"}</div>
       </div>
       <div
         className={`accordion-content transition-all duration-300 overflow-y-hidden ${active ? 'max-h-screen' : 'max-h-0'}`}
       >
         {content.map(({ filter }, index) => (
-          <div className="flex flex-col gap-4" key={`content-${index}`}>
+          <div className="flex flex-col gap-4 p-3" key={`content-${index}`}>
             {filter.map((item, subIndex) => (
               <a
                 href="#"
                 className="cursor-pointer flex justify-between gap-2"
                 key={`filter-${index}-${subIndex}`}
               >
-                <label htmlFor={`filter-${index}-${subIndex}`} className="text-xl">
+                <label htmlFor={`filter-${index}-${subIndex}`} className="text-base ">
                   {item}
                 </label>
                 <input
                   type="radio"
-                  name={title} // Уникальное имя для каждой группы радиокнопок
-                  id={`filter-${index}-${subIndex}`} // Уникальный id для каждой кнопки
+                  name={title} 
+                  id={`filter-${index}-${subIndex}`} 
                   value={item}
                 />
               </a>

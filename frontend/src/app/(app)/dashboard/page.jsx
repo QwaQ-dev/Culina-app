@@ -85,32 +85,32 @@ export default function dashboard(){
                 <Slider />
             </div>
             <div className="flex ">
-                <div className="flex flex-col h-full  w-96 m-4">
-                    <h2 className="text-3xl text-center p-4">Recipes</h2>
+                <div className="flex flex-col h-full  w-20 md:w-40 lg:w-64 m-4">
+                    <h2 className="text-base lg:text-3xl text-center pb-4">Recipes</h2>
 
                     <div className=" bg-nedoorange flex flex-col rounded-t-xl w-full ">
-                        <p className=" text-xl leading-loose p-4">Filter by:</p>
-                        <div className="flex  flex-col gap-4 last:border-b-8 last:border-nedoorange last:rounded-b-lg">
+                        <p className=" text-md lg:text-xl lg:leading-loose p-4">Filter by:</p>
+                        <div className="flex flex-col gap-4 last:border-b-8 last:border-nedoorange last:rounded-b-lg">
                             {inside.map(({title, content}, key) =>(
                                 <Filter title = {title} content = {content} key={key+content.filter + title}/>
                             ))}
                         </div>
                     </div>
                 </div>
-                <div>
-                <div className="w-full max-w-4xl mx-auto">
-                    <div className="flex justify-between items-center relative">
+                <div className="w-full">
+                <div className="w-full lg:max-w-4xl mx-auto">
+                    <div className="flex justify-between items-center relative pt-3 px-3 md:px-10 lg:px-36 xl:px-20 lg:py-3">
 
                         <input
                             type="text"
                             placeholder="Search for recipes..."
-                            className="w-1/2 p-3 pl-10 bg-black text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
+                            className="text-xs w-full  md:w-1/2 lg:w-2/3 lg:pl-12 p-4 pl-10  bg-black text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
                         />
                         
                         <button>
                             <svg
                                 xmlns="icons/find.svg"
-                                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                                className="absolute left-5 md:left-12  lg:left-40 xl:left-24 top-9 transform -translate-y-1/2 text-gray-400"
                                 width="20" height="20" viewBox="0 0 20 20"
                                 fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
                             >
@@ -119,7 +119,7 @@ export default function dashboard(){
                             </svg>
                         </button>
 
-                        <button className="w-24 ml-4 p-3 bg-black text-white rounded-lg focus:outline-none hover:bg-gray-700" onClick={() =>{setSort(!sort)}}>
+                        <button className=" hidden md:flex p-2  lg:ml-4 lg:py-2.5 lg:px-3 bg-black text-white rounded-lg focus:outline-none hover:bg-gray-700" onClick={() =>{setSort(!sort)}}>
                             Sort
                         </button>
                         {sort && (
@@ -135,11 +135,13 @@ export default function dashboard(){
                     </div>
                 </div>
 
-                    <div className="mx-auto flex flex-row flex-wrap p-9 w-full flex-grow items-start">
-                        <div className="flex flex-row flex-wrap gap-10 w-full">
-                            {cards.map(({id, imgs, name, diff, author })=>{
-                                return <Card key={id} image={imgs[1]} name={name} rate={diff} author={author}/>
-                            })}
+                    <div className="mx-auto flex flex-row flex-wrap p-4 lg:p-9 w-full flex-grow items-start">
+                        <div className="flex flex-row flex-wrap w-full overflow-scroll justify-center  items-center mx-auto">
+                            <div className = "flex  flex-wrap gap-10 md:gap-20  xl:gap-20  justify-center  w-full">
+                                {cards.map(({id, imgs, name, diff, author })=>{
+                                    return <Card key={id} image={imgs[1]} name={name} rate={diff} author={author}/>
+                                })}
+                            </div>
                             {/* <Card image={"meals/carbonara.png"} name={"Carbonara"} rate={"5"} author={"Rick James"} />
                             <Card image={"meals/carbonara.png"} name={"Carbonara"} rate={"5"} author={"Rick James"} />
                             <Card image={"meals/carbonara.png"} name={"Carbonara"} rate={"5"} author={"Rick James"} />

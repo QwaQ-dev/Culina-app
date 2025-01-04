@@ -28,14 +28,14 @@ export default function Profile(){
     const [activeTab, setActiveTab] = useState("about")
     return(
         <Loggedlayout lastcomp={lastComponent}>
-            <div className="flex flex-col items-center w-full max-w-3xl mx-auto  ">
+            <div className="flex flex-col items-center w-full max-w-3xl min-h-full mx-auto  ">
                 <div className="relative w-full h-48 rounded-lg  ">
                     <img
                         className="bg-banner border-black border-2  rounded-xl w-full h-full object-cover -z-10"
                     />
                     
                     <div className="absolute bottom-[-40px] left-4 ">
-                        <h2 className="text-center">Cooker</h2>
+                        <h2 className="text-center font-semibold text-xl">Cooker</h2>
                         <div className="relative w-32 h-32 z-10 md:w-32 md:h-32 border-4 border-black rounded-full overflow-hidden">
                             <img
                                 src="avatars/chef.svg"
@@ -63,31 +63,33 @@ export default function Profile(){
             </div>
 
         <div className=" mt-20 mb-10 h-0.5 w-full bg-black/60"></div>
-        <div className=" flex flex-row gap-10">
-            <div className=" w-60  ps-10 container-fluid">
+        <div className="flex flex-row gap-10  relative overflow-x-hidden">
+            <div className="w-60 ps-10">
                 <ul className="space-y-4">
                     {tabs.map((tab) => (
-                    <li key={tab.id}>
-                        <button
-                        onClick={() => setActiveTab(tab.id)}
-                        className={`block w-full text-left p-2  transition ease-in duration-200 ${
-                            activeTab === tab.id ? "bg-nedoorange font-bold shadow-[rgba(0,0,13,0.3)_0px_2px_2px_0px]" : ""
-                        }`}
-                        >
-                        {tab.label}
-                        </button>
-                    </li>
+                        <li key={tab.id}>
+                            <button
+                                onClick={() => setActiveTab(tab.id)}
+                                className={`block w-full text-left p-2 transition ease-in duration-200 ${
+                                    activeTab === tab.id ? "bg-nedoorange font-bold shadow-[rgba(0,0,13,0.3)_0px_2px_2px_0px]" : ""
+                                }`}
+                            >
+                                {tab.label}
+                            </button>
+                        </li>
                     ))}
                 </ul>
             </div>
-            <div className="w-2/3 ">
+            <div className="w-full">
                 {activeTab === "about" && <About />}
                 {activeTab === "recipes" && <Recipes />}
                 {activeTab === "connection" && <Connection />}
                 {activeTab === "paid" && <PaidContent />}
                 {activeTab === "settings" && <Settings />}
             </div>
+            
         </div>
+
         </Loggedlayout>
     )
 }
