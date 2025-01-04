@@ -1,4 +1,5 @@
 const { Receipts } = require("../models/models");
+const { client } = require('../search/Typesense');
 
 class ReceiptController{
     async createReceipt(req, res){
@@ -17,11 +18,21 @@ class ReceiptController{
                 imgs: imagesUrl,
                 author
             })
+
+            await client.collections('receipts').documents().create({
+                name: name,
+                descr: descr,
+                diff: diff,
+                filters: Array.isArray(filters) ? filters : JSON.parse(filters),  
+                imgs: Object.values(imagesUrl),    
+                author: author,
+            })
             return res.status(200).json({message: "Receipt add"});
         } catch (error) {
             return res.status(500).json({
                 message: "Error with adding receipt", 
-                error: error.message});
+                error: error.message
+            });
         }
     };  
 
@@ -86,6 +97,32 @@ class ReceiptController{
             return res.status(500).json({message: "Error with getting user receipts", error: error.message});
         };
     };
+
+    async searchReceipts(req, res) { 
+        const query = req.params.query;  
+        try {
+            const searchParams = {
+                'q': query, 
+                'query_by': 'name,descr,author'  
+            };
+        
+            const search = await client.collections('receipts').documents().search(searchParams);
+            
+            let receipts = [];
+    
+            if (search.hits) {
+                search.hits.forEach((el) => {
+                    receipts.push(el.document);  
+                });
+            }
+    
+            res.status(200).json(receipts);  
+        } catch (error) {
+            console.error("Error with searching:", error);
+            res.status(500).json({ message: "Error with searching", error: error.message });
+        }
+    }
+    
 }
 
 module.exports = new ReceiptController();
