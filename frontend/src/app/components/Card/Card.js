@@ -1,25 +1,16 @@
 import { Montserrat } from "next/font/google"
 
-
-export default function Card({image, name, rate, author}){
-    return(
-        <div className="font-montserrat w-72 ">
-            <div>
-                <img src={image} className="w-72 cursor-pointer rounded-t-md" alt="CARD" />
-            </div>
-            <div className="bg-nedoorange rounded-b-md">
-                <div className="p-2">
-                    <h2 className="text-2xl leading-relaxed ">{name}</h2>
-                </div>
-                <div className="flex flex-row justify-between px-4 py-2">
-                    <div>
-                        <p>{rate} rate</p>
-                    </div>
-                    <div>
-                        <p>{author}</p>
-                    </div>
+export default function Card({ image, name, rate, author }) {
+    return (
+        <div className="font-montserrat w-44 h-56 lg:w-72  flex flex-col bg-nedoorange rounded-md overflow-hidden">
+            <img src={image} className="w-full h-28 lg:h-36 object-cover" alt="CARD" />
+            <div className="flex flex-col justify-between p-4 h-full">
+                <h2 className="truncate text-md font-bold md:text-2xl leading-relaxed">{name}</h2>
+                <div className="flex justify-between text-xs">
+                    <p>{rate} <span className="font-bold">rate</span></p>
+                    <p className="truncate">{author}</p>
                 </div>
             </div>
         </div>
-    )
+    );
 }
