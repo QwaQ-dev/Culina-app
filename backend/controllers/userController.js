@@ -1,8 +1,7 @@
-const db = require("../db/db");
 const { User } = require("../models/models")
 const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 dotenv.config();
 
 
@@ -14,7 +13,7 @@ const generateJwt = (username, role, sex) => {
     );
 };
 
-class UsersController{
+class UserController{
     async signUp(req, res) {
         const {e_mail, username, password} = req.body;
 
@@ -156,4 +155,4 @@ class UsersController{
 
 }
 
-module.exports = new UsersController();
+module.exports = new UserController();
