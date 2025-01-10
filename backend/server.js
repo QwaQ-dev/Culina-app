@@ -16,7 +16,6 @@ app.use(cors());
 app.use(express.json());
 app.use('/uploads/:author/receipts-imgs', uploadImagesMiddleware);
 app.use('/api/v1', apiRouter)
-deleteTypesense()
 typesenseFill()
 
 const start = async () => {

@@ -3,7 +3,7 @@ const { Receipts } = require('../models/models');
 
 const client = new Typesense.Client({
     'nodes': [{
-        'host': 'localhost',
+        'host': 'typesense',
         'port': '8108',
         'protocol': 'http',
     }],
