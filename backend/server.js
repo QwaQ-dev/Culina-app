@@ -18,6 +18,7 @@ app.use(express.json());
 app.use('/uploads/:author/receipts-imgs', uploadImagesMiddleware);
 app.use('/api/v1', apiRouter);
 
+
 const start = async () => {
     try {
         await sequelize.authenticate();

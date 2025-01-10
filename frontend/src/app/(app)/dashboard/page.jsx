@@ -4,9 +4,11 @@ import { useEffect, useState } from "react"
 
 import Slider from "@/app/components/Slider/Slider.js"
 import Loggedlayout from "../logged-layout.jsx"
-import Card from "@/app/components/Card/Card.js"
-import Filter from "@/app/components/Filter/Filter.js"
+import Card from "@/app/components/Card/Card.jsx"
+import Filter from "@/app/components/Filter/Filter.jsx"
 import { getAllCards } from "@/app/api/cards/getCard/getAllCards.js"
+
+
 
 import axios from "axios"
 
@@ -98,9 +100,9 @@ export default function dashboard(){
                     </div>
                 </div>
                 <div className="w-full">
-                <div className="w-full lg:max-w-4xl mx-auto">
+                <div className="w-full lg:max-w-4xl mx-auto ">
                     <div className="flex justify-between items-center relative pt-3 px-3 md:px-10 lg:px-36 xl:px-20 lg:py-3">
-
+                            
                         <input
                             type="text"
                             placeholder="Search for recipes..."
