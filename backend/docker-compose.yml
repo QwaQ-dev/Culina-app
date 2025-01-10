@@ -1,19 +1,22 @@
 version: '3.7'
 
 services:
-
   backend:
     container_name: server
     build: .
     ports: 
       - '8080:8080'
     depends_on: 
-      - ciluna-db
+      - culina-db
+      - typesense
     networks:
       - backend
+    environment:
+      - DB_HOST=culina-db
+      - DB_PORT=5432
 
-  ciluna-db:
-    container_name: ciluna-db
+  culina-db:
+    container_name: culina-db
     image: postgres:latest
     restart: always
     environment:
@@ -29,18 +32,25 @@ services:
 
   typesense:
     image: typesense/typesense:27.1
-    restart: on-failure
+    environment:
+      - TYPESENSE_API_KEY=xyz
+      - TYPESENSE_DATA_DIR=/data
     ports:
       - "8108:8108"
     volumes:
+      - ./data:/data
       - ./typesense-data:/data
-    command: --data-dir /data --api-key=xyz --enable-cors
     networks:
       - backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8108/health"]
+      interval: 30s
+      retries: 3
+      start_period: 10s
+      timeout: 10s
 
 volumes:
   postgres_data:
-  typesense-data:
 
 networks:
   backend:

@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const sequelize = new Sequelize('Culina-app', 'postgres', 'postgres', {
-    host: 'ciluna-db',
+    host: 'culina-db',
     dialect: 'postgres',
     port: 5432,
     logging: false, 
