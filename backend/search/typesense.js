@@ -3,75 +3,60 @@ const { Receipts } = require('../models/models');
 
 const client = new Typesense.Client({
     'nodes': [{
-        'host': 'localhost',
+        'host': 'typesense',
         'port': '8108',
         'protocol': 'http',
     }],
     'apiKey': 'xyz',  
-    'connectionTimeoutSeconds': 2
+    'connectionTimeoutSeconds': 10,
 });
 
-const schema = {
-    'name': 'receipts',
-    'fields': [
-        {
-            'name': 'id',
-            'type': 'string',
-            'facet': false
-        },
-        {
-            'name': 'name',
-            'type': 'string',
-            'facet': false
-        },
-        {
-            'name': 'descr',
-            'type': 'string',
-            'facet': false
-        },
-        {
-            'name': 'diff',
-            'type': 'string',
-            'facet': false
-        },
-        {
-            'name': 'filters',
-            'type': 'string[]',
-            'facet': false
-        },
-        {
-            'name': 'imgs',
-            'type': 'string[]',
-            'facet': false
-        },
-        {
-            'name': 'author',
-            'type': 'string',
-            'facet': false
+
+async function createCollectionIfNotExist() {
+    try {
+        const collections = await client.collections().retrieve();
+        const collectionExists = collections.some(col => col.name === 'receipts');
+        if (!collectionExists) {
+            console.log('Creating collection "receipts"...');
+            const schema = {
+                'name': 'receipts',
+                'fields': [
+                    { 'name': 'id', 'type': 'string' },
+                    { 'name': 'name', 'type': 'string' },
+                    { 'name': 'descr', 'type': 'string' },
+                    { 'name': 'diff', 'type': 'string' },
+                    { 'name': 'filters', 'type': 'string[]' },
+                    { 'name': 'imgs', 'type': 'string[]' },
+                    { 'name': 'author', 'type': 'string' }
+                ]
+            };
+            await client.collections().create(schema);
+            console.log('Collection "receipts" created');
+
+            await new Promise(resolve => setTimeout(resolve, 10000));
         }
-    ]
-};
+    } catch (error) {
+        console.error('Error checking or creating collection:', error);
+    }
+}
+
 
 async function typesenseFill() {
     try {
+        await createCollectionIfNotExist();
+        
         const receiptsFromDB = await Receipts.findAll();
-
-        const receiptsSchema = await client.collections().create(schema);
-
-        const formattedReceipts = receiptsFromDB.map((receipt) => {
-            return {
-                id: receipt.id.toString(),
-                name: receipt.name,
-                descr: receipt.descr,
-                diff: receipt.diff,
-                filters: JSON.parse(receipt.filters),  
-                imgs: Object.values(receipt.imgs),    
-                author: receipt.author,
-            };
-        });
+        const formattedReceipts = receiptsFromDB.map((receipt) => ({
+            id: receipt.id.toString(),
+            name: receipt.name,
+            descr: receipt.descr,
+            diff: receipt.diff,
+            filters: JSON.parse(receipt.filters),
+            imgs: Object.values(receipt.imgs),
+            author: receipt.author,
+        }));
 
         const result = await client.collections('receipts').documents().import(formattedReceipts, { action: 'create' });
-
         console.log("Documents added to Typesense:", result);
     } catch (error) {
         console.error("Error while adding documents to Typesense:", error);
@@ -81,6 +66,7 @@ async function typesenseFill() {
 async function deleteTypesense() {
     try {
         const del = await client.collections('receipts').delete();
+        console.log("Collection 'receipts' deleted.");
     } catch (error) {
         console.error("Error while deleting collection:", error);
     }
@@ -95,9 +81,11 @@ async function retrive() {
     }
 }
 
+// Экспорт функций
 module.exports = {
     client,
     typesenseFill,
     deleteTypesense,
-    retrive
+    retrive,
+    createCollectionIfNotExist
 };
