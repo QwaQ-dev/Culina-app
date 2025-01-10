@@ -11,14 +11,14 @@ export default function Connection(){
 
                 </div>
                 <div className="flex items-center relative">
-                    <div className="absolute left-40 flex">
+                    <div className="absolute left-36 flex">
                         <img src="icons/add-image.svg" className="h-8 w-8 cursor-pointer" alt="Add" />
                     </div>
                     
                     <input 
                         type="text" 
                         placeholder="Type your message here..." 
-                        className="rounded-xl w-3/4 mx-auto h-14 bg-nedowhite border-black/20 border-2 p-2 pl-12 pr-16" 
+                        className="rounded-xl w-3/4 mx-auto h-14 bg-nedowhite border-black/20 border-2 p-2 pl-14 pr-16" 
                     />
 
                     <div className="absolute right-40">

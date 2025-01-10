@@ -80,7 +80,7 @@ export default function Profile(){
                     ))}
                 </ul>
             </div>
-            <div className="w-full">
+            <div className="w-full h-full overflow-hidden">
                 {activeTab === "about" && <About />}
                 {activeTab === "recipes" && <Recipes />}
                 {activeTab === "connection" && <Connection />}
