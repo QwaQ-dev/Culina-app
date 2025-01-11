@@ -7,10 +7,15 @@ import Loggedlayout from "../logged-layout.jsx"
 import Card from "@/app/components/Card/Card.jsx"
 import Filter from "@/app/components/Filter/Filter.jsx"
 import { getAllCards } from "@/app/api/cards/getCard/getAllCards.js"
+import { FaSearch } from "react-icons/fa";
+
+
 
 
 
 import axios from "axios"
+import SearchCard from "@/app/components/Search/SearchCard/SearchCard.jsx"
+import { getSearchItem } from "@/app/api/search/getSearchItem.js"
 
 const lastComponent = <div className="flex flex-row gap-5">
                         <div className=" border-black rounded-xl p-2 cursor-pointer">
@@ -59,9 +64,14 @@ const inside = [
     }
 ]
 
+
+
+
 export default function dashboard(){
     const [sort, setSort] = useState(false)
     const [cards, setCards] = useState([])
+    const [searchValue, setSearchValue] = useState("")
+    const [searchResult, setSearchResult] = useState([])
     useEffect(()=>{
         const fetchData = async() => {
             try{
@@ -74,12 +84,26 @@ export default function dashboard(){
 
 
         };
+        const searchData = async() =>{
+            try{
+                const response = await getSearchItem(searchValue);
+                setSearchResult(response)
+
+            }catch(err){
+                console.log("err:", err)
+            }
+            
+        }
+
 
         fetchData()
+        searchData()
         console.log(cards)
 
     },[])
-    
+    const handleChange = (e) =>{
+        setSearchValue(e.target.value)
+    }
 
     return(
         <Loggedlayout lastcomp={lastComponent}  >
@@ -100,42 +124,54 @@ export default function dashboard(){
                     </div>
                 </div>
                 <div className="w-full">
-                <div className="w-full lg:max-w-4xl mx-auto ">
-                    <div className="flex justify-between items-center relative pt-3 px-3 md:px-10 lg:px-36 xl:px-20 lg:py-3">
-                            
-                        <input
-                            type="text"
-                            placeholder="Search for recipes..."
-                            className="text-xs w-full  md:w-1/2 lg:w-2/3 lg:pl-12 p-4 pl-10  bg-black text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
-                        />
-                        
-                        <button>
-                            <svg
-                                xmlns="icons/find.svg"
-                                className="absolute left-5 md:left-12  lg:left-40 xl:left-24 top-9 transform -translate-y-1/2 text-gray-400"
-                                width="20" height="20" viewBox="0 0 20 20"
-                                fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                            >
-                                <circle cx="9" cy="9" r="7"></circle>
-                                <path d="M16 16l4 4"></path>
-                            </svg>
-                        </button>
+                    <div className="w-full lg:max-w-4xl mx-auto">
+                        <div className="flex justify-between gap-10 ps-36 items-center relative pt-3 px-3  lg:py-3">
 
-                        <button className=" hidden md:flex p-2  lg:ml-4 lg:py-2.5 lg:px-3 bg-black text-white rounded-lg focus:outline-none hover:bg-gray-700" onClick={() =>{setSort(!sort)}}>
-                            Sort
-                        </button>
-                        {sort && (
-                            <div className="absolute right-0 top-full mt-2 w-40 bg-white text-black rounded-lg shadow-lg z-10 transition-all duration-300 ease-in-out">
-                                <ul className="p-2">
-                                    <li className="py-2 px-4 hover:bg-gray-200 cursor-pointer">By Name</li>
-                                    <li className="py-2 px-4 hover:bg-gray-200 cursor-pointer">By Date</li>
-                                    <li className="py-2 px-4 hover:bg-gray-200 cursor-pointer">By Rating</li>
-                                    <li className="py-2 px-4 hover:bg-gray-200 cursor-pointer">By Difficulty</li>
-                                </ul>
+                            <div className="flex flex-row items-center p-2   rounded-lg w-2/3 justify-center bg-black px-4">
+                                <FaSearch className="text-white  " />
+                                <input
+                                    type="text"
+                                    placeholder="Search for recipes..."
+                                    value={searchValue}
+                                    onChange={handleChange}
+                                    className="text-sm w-full p-4 bg-black text-white focus:outline-none"
+                                />
                             </div>
-                        )}
-                    </div>
+
+                            {/* Кнопка сортировки */}
+                            <button
+                                className="hidden md:flex p-2 lg:ml-4 lg:p-3  rounded-lg bg-black text-white focus:outline-none hover:bg-gray-700"
+                                onClick={() => setSort(!sort)}
+                            >
+                                Sort
+                            </button>
+
+                            {/* Выпадающее меню сортировки */}
+                            {sort && (
+                                <div className="absolute right-0 top-full mt-2 w-40 bg-white text-black rounded-lg shadow-lg z-10 transition-all duration-300 ease-in-out">
+                                    <ul className="p-2">
+                                        <li className="py-2 px-4 hover:bg-gray-200 cursor-pointer">By Name</li>
+                                        <li className="py-2 px-4 hover:bg-gray-200 cursor-pointer">By Date</li>
+                                        <li className="py-2 px-4 hover:bg-gray-200 cursor-pointer">By Rating</li>
+                                        <li className="py-2 px-4 hover:bg-gray-200 cursor-pointer">By Difficulty</li>
+                                    </ul>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Результаты поиска */}
+                        <div className="w-2/3 p-2 mx-auto ps-36 z-10 absolute flex flex-col gap-4">
+                            {searchResult.map(({ imgs, name, diff, author, id }) => {
+                                return (
+                                <div key={id} className="div">
+                                    <SearchCard img={imgs[0]} name={name} rating={diff} author={author} />
+                                </div>
+                                );
+                            })}
+                            </div>
+                        </div>
                 </div>
+                <div>
 
                     <div className="mx-auto flex flex-row flex-wrap p-4 lg:p-9 w-full flex-grow items-start">
                         <div className="flex flex-row flex-wrap w-full overflow-scroll justify-center  items-center mx-auto">
