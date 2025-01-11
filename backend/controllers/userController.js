@@ -39,32 +39,28 @@ class UserController{
 
     async signIn(req, res) {
         const { username, password } = req.body;
-    
-        const user = await User.findOne({
-            where: {
-                username: username
-            }
-        })
+        try {
+            const user = await User.findOne({
+                where: {
+                    username: username
+                }
+            })
 
-        if (user.length === 0) {
-            return res.status(404).json({ 
-                message: "User not found" 
-            });
-        }
-
-        const comparePassword = await bcrypt.compare(password, user.password);
-
-        if(comparePassword) {
-            const token = generateJwt(user.username, user.role, user.sex);
-    
-            return res.status(200).json({
-                 JWT: token 
+            try {
+                const token = generateJwt(user.username, user.role, user.sex);
+        
+                return res.status(200).json({
+                     JWT: token 
+                    });
+            } catch (error) {
+                return res.status(500).json({
+                    message: "Password is incorrect"
                 });
-        } else {
-            return res.status(500).json({
-                message: "Password is incorrect"
-            });
-        };
+            }
+
+        } catch (error) {
+            return res.status({'message': "No user"})
+        }
     }
 
     async check(req, res) {

@@ -5,6 +5,6 @@ export async function getSearchItem(item){
         const response = await axios.get(`http://localhost:8080/api/v1/dashboard/search-receipts/${item}`)
         return response
     }catch(err){
-        throw "Error with getting"
+        console.log(err)
     }
 }
