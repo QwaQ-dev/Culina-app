@@ -47,7 +47,6 @@ async function typesenseFill() {
         
         const receiptsFromDB = await Receipts.findAll();
         const formattedReceipts = receiptsFromDB.map((receipt) => ({
-            id: receipt.id.toString(),
             name: receipt.name,
             descr: receipt.descr,
             diff: receipt.diff,

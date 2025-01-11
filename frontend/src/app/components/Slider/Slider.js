@@ -20,7 +20,7 @@ export default function Slider(){
         // modules={[Autoplay]}
       >
         <SwiperSlide>
-          <div className="bg-nedoorange flex flex-row justify-between  mx-10 h-52 lg:mx-36 lg:my-10 rounded-2xl lg:h-80">
+          <div className="bg-nedoorange flex flex-row justify-between mx-10 h-52 lg:mx-36 lg:my-10 rounded-2xl lg:h-80 2xl:h-full 2xl:mx-52">
             <div className="flex flex-col justify-between text-center items-center w-1/2">
               <div></div>
               <div className="flex justify-between flex-col w-full text-wrap p-10 lg:px-10">
@@ -30,11 +30,18 @@ export default function Slider(){
                 <p className="text-start">Culina Inc.</p>
               </div>
             </div>
-            <div className="p-6 lg:p-12 w-1/3"><img src="illustr/first-slide.png" className="lg:w-72 " alt="" /></div>
+            <div className="p-6 lg:p-12 w-1/3 flex items-center justify-center">
+              <img
+                src="illustr/first-slide.png"
+                className="w-full max-w-[100px] lg:max-w-[200px] 2xl:max-w-[400px] max-h-full object-contain"
+                alt=""
+              />
+            </div>
           </div>
         </SwiperSlide>
+
         <SwiperSlide>
-          <div className="bg-nedoorange flex flex-row justify-between mx-10 h-52 lg:mx-36 lg:my-10 rounded-2xl lg:h-80">
+          <div className="bg-nedoorange flex flex-row justify-between mx-10 h-52 lg:mx-36 lg:my-10 rounded-2xl lg:h-80 2xl:h-full 2xl:mx-52">
               <div className="p-6 lg:p-12 w-1/3"><img src="illustr/second-slide.png" className=" lg:w-96 " alt="" /></div>
               <div className="flex flex-col justify-between text-center items-center w-1/2">
                 <div></div>
@@ -48,7 +55,7 @@ export default function Slider(){
             </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className="bg-nedoorange flex flex-row justify-between mx-10 h-52 lg:mx-36 lg:my-10  rounded-2xl lg:h-80">
+          <div className="bg-nedoorange flex flex-row justify-between mx-10 h-52 lg:mx-36 lg:my-10  rounded-2xl lg:h-80 2xl:h-full 2xl:mx-52">
               <div className="flex flex-col justify-between text-center items-center w-1/2">
                 <div></div>
                 <div className="flex justify-between flex-col w-full text-wrap lg:px-10">
@@ -63,12 +70,12 @@ export default function Slider(){
             </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className="bg-nedoorange flex flex-row justify-between mx-10 h-52 lg:mx-36 lg:my-10  rounded-2xl lg:h-80">
+          <div className="bg-nedoorange flex flex-row justify-between mx-10 h-52 lg:mx-36 lg:my-10  rounded-2xl lg:h-80 2xl:h-full 2xl:mx-52">
               <div className="p-12 w-1/3"><img src="illustr/fourth-slide.png" className="w-40 lg:w-72 " alt="" /></div>
               <div className="flex flex-col justify-between text-center items-center w-1/2">
                 <div></div>
                 <div className="flex justify-between flex-col w-full text-wrap px-4 py-6 lg:px-10">
-                  <p className="text-center lg:text-2xl text-wrap">“To eat well, I always disagree with critics who say that all restaurants should be fine dining. You can get a Michelin star if you serve the best hamburger in the world.”</p>
+                  <p className="text-center lg:text-2xl 2xl:text-4xl text-wrap">“To eat well, I always disagree with critics who say that all restaurants should be fine dining. You can get a Michelin star if you serve the best hamburger in the world.”</p>
                 </div>
                 <div className="text-start w-full py-2 lg:py-4 px-10">
                   <p className="text-end">David Chang</p>
@@ -77,7 +84,7 @@ export default function Slider(){
             </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className="bg-nedoorange flex flex-row justify-between mx-10 h-52 lg:mx-36 lg:my-10 rounded-2xl lg:h-80">
+          <div className="bg-nedoorange flex flex-row justify-between mx-10 h-52 lg:mx-36 lg:my-10 rounded-2xl lg:h-80 2xl:h-full 2xl:mx-52">
               <div className="flex flex-col justify-between text-center items-center w-1/2">
                 <div></div>
                 <div className="flex justify-between flex-col w-full text-wrap px-10">

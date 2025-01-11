@@ -39,7 +39,6 @@ services:
       - "8108:8108"
     volumes:
       - ./data:/data
-      - ./typesense-data:/data
     networks:
       - backend
     healthcheck:

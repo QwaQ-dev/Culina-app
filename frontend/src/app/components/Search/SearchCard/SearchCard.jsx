@@ -1,8 +1,8 @@
 export default function SearchCard({ img, name, rating, author }) {
     return (
-      <div className="flex items-center gap-4 p-4 bg-white shadow-lg rounded-lg border border-gray-200 hover:shadow-xl transition-shadow duration-200 w-full max-w-lg">
+      <div className="flex items-center gap-4 p-4 bg-white shadow-lg rounded-lg border border-gray-200 hover:shadow-xl transition-shadow duration-200">
         <img
-          src={img}
+          src={`http://localhost:8080/${img}`}
           alt={name}
           className="w-16 h-16 rounded-full object-cover"
         />
