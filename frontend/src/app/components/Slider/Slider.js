@@ -1,5 +1,5 @@
 "use client"
-// import { Autoplay } from "swiper/modules";
+import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
@@ -12,12 +12,12 @@ export default function Slider(){
         slidesPerView={1}
         onSlideChange={() => console.log('slide change')}
         onSwiper={(swiper) => console.log(swiper)}
-        // autoplay={{
-        //   delay: 6000,
-        // }}
+        autoplay={{
+          delay: 6000,
+        }}
         className="font-montserrat md:flex hidden my-10 "
         navigation={true}
-        // modules={[Autoplay]}
+        modules={[Autoplay]}
       >
         <SwiperSlide>
           <div className="bg-nedoorange flex flex-row justify-between mx-10 h-52 lg:mx-36 lg:my-10 rounded-2xl lg:h-80 2xl:h-full 2xl:mx-52">

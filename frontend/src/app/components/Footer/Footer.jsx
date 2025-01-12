@@ -1,6 +1,10 @@
 export default function Footer(props) {
+    let className="w-full bottom-0  mt-10 border-t-2  border-black flex flex-row justify-between px-7 text-sm sm:text-base"
+    if (props.isFixed === true){
+        className += " fixed"
+    }
     return (
-        <footer className="w-full bottom-0  mt-10 border-t-2  border-black flex flex-row justify-between px-7 text-sm sm:text-base">
+        <footer className={className}>
             <div className="flex flex-row p-3 sm:gap-5">
                 <div>
                     <span className="flex flex-row text-xs sm:text-lg 2xl:text-2xl sm:gap-2">
