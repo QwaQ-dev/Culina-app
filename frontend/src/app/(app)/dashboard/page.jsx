@@ -6,8 +6,9 @@ import Slider from "@/app/components/Slider/Slider.js"
 import Loggedlayout from "../logged-layout.jsx"
 import Card from "@/app/components/Card/Card.jsx"
 import Filter from "@/app/components/Filter/Filter.jsx"
-import { getAllCards } from "@/app/api/cards/getCard/getAllCards.js"
+import { getAllCards } from "@/app/api/cards/getAllCards/getAllCards.js"
 import { FaSearch } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 
 
@@ -72,14 +73,19 @@ export default function dashboard(){
     const [cards, setCards] = useState([])
     const [searchValue, setSearchValue] = useState("")
     const [searchResult, setSearchResult] = useState([])
+    const [loading, setLoading] = useState(false)
+
     useEffect(()=>{
         const fetchData = async() => {
             try{
+                setLoading(true)
                 const response = await getAllCards();
                 console.log(response.data[0].imgs[1])
                 setCards(response.data)
             }catch(err){
                 console.log(err)
+            }finally{
+                setLoading(false)
             }
 
 
@@ -117,7 +123,7 @@ export default function dashboard(){
             <div className = "flex mx-auto">
                 <Slider />
             </div>
-            <div className="flex justify-center gap-48">
+            <div className="flex justify-center lg:gap-12 2xl:gap-48">
                 <div className="flex flex-col h-full  w-20 md:w-40 lg:w-64 m-4">
                     <h2 className="text-base lg:text-3xl text-center pb-4">Recipes</h2>
 
@@ -144,13 +150,26 @@ export default function dashboard(){
                                     onChange={handleChange}
                                     className="text-sm w-full p-4 bg-black text-white focus:outline-none"
                                 />
-                                <div className="absolute left-0 right-0 top-full py-4 mt-2 mx-auto w-full z-50 overflow-auto h-[500px]">
+                                <motion.div
+                                    className="absolute left-0 right-0 top-full py-4 mt-2 mx-auto w-full z-50 overflow-auto h-[500px] transition duration-500"
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    transition={{ duration: 0.3 }}
+                                    >
                                     {searchResult.map(({ imgs, name, diff, author, id }) => (
-                                        <div key={id} className="mb-4">
-                                            <SearchCard img={imgs} name={name} rating={diff} author={author} />
-                                        </div>
+                                        <motion.div
+                                        key={id}
+                                        className="mb-4"
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: 10 }}
+                                        transition={{ duration: 0.3 }}
+                                        >
+                                        <SearchCard img={imgs} name={name} rating={diff} author={author} />
+                                        </motion.div>
                                     ))}
-                                </div>
+                                </motion.div>
                             </div>
 
 

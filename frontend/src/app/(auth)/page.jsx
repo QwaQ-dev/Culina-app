@@ -21,7 +21,7 @@ export default function WelcomePage() {
         <AuthLayout lastcomp={lastcomponent} className="font-montserrat fixed">
             <div className="top-main flex  flex-col justify-center items-center gap-10 my-36">
                 <div className="upper">
-                    <h2 className="text-xl lg:text-5xl  2xl:text-7xl font-semibold tracking-widest ">Try.Learn.Repeat.</h2>
+                    <h2 className="text-xl lg:text-5xl  2xl:text-7xl font-semibold tracking-widest subpixel-antialiased ">Try.Learn.Repeat.</h2>
                 </div>
                 <div className="middle px-4">
                     <h2 className="font-recursive text-xl lg:text-3xl 2xl:text-5xl text-center ">Culina is a brand-new website tutor, which can open you the world of cooking</h2>
@@ -33,25 +33,30 @@ export default function WelcomePage() {
                 </div>
             </div>
             <div className="md:hidden mx-auto p-4"><img src="/illustr/main.png" className="w-[15rem] " alt="" /></div>
-            <div className="main flex justify-center items-center my-10 p-8">
-                <div>
-                    <h2 className="text-2xl sm:text-2xl md:text-4xl  2xl:text-7xl  2xl:leading-relaxed leading-normal font-normal">Become <br/>cooking <br/>magician</h2>
+            <div className="main flex justify-center items-center gap-10 my-10 mx-auto w-full">
+                <div className="text-center md:text-left">
+                    <h2 className="text-2xl sm:text-2xl md:text-4xl 2xl:text-7xl font-bold subpixel-antialiased  mr-10">
+                    Become <br /> cooking <br /> magician
+                    </h2>
                 </div>
-                <div className="mx-10 hidden md:block"><img src="/illustr/main.png" className="w-[25rem] md:w-[20rem] lg:w-[30rem] 2xl:w-[40rem]" alt="" /></div>
-                <div className="text-center font-medium ms-10 md:ms-0 lg:text-2xl 2xl:text-5xl ">
-                    <div className="">
-                        <p>
-                            50 <br/> current users
-                        </p>
-                    </div>
-                    <div className="h-1 w-full  bg-black"></div>
+                <div className="hidden md:block flex-shrink-0">
+                    <img src="/illustr/main.png" className="w-[20rem] lg:w-[30rem] 2xl:w-[40rem]" alt="" />
+                </div>
+                <div className="text-center font-medium lg:text-2xl 2xl:text-5xl">
                     <div>
-                        <p>
-                            210 <br/> recipes for all need
-                        </p>
+                    <p>
+                        50 <br /> current users
+                    </p>
+                    </div>
+                    <div className="h-1 w-full bg-black my-4"></div>
+                    <div>
+                    <p>
+                        210 <br /> recipes for all need
+                    </p>
                     </div>
                 </div>
-            </div>
+                </div>
+
             <div className="flex flex-col lg:flex-row justify-between items-center mx-auto gap-10 my-10 p-6">
                 <div className="card flex flex-col bg-nedoorange rounded-3xl p-5 gap-5 shadow-lg">
                     <div className="">
