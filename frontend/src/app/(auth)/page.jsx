@@ -1,6 +1,9 @@
+import Link from "next/link";
+
 import AuthLayout from "./auth-layout"
 import { Montserrat } from "next/font/google";
 import { Recursive } from "next/font/google";
+
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -19,11 +22,11 @@ const lastcomponent = <a href={"/sign-up"}>
 export default function WelcomePage() {
     return(
         <AuthLayout lastcomp={lastcomponent} className="font-montserrat fixed">
-            <div className="top-main flex  flex-col justify-center items-center gap-10 my-36">
+            <div className="top-main flex  flex-col justify-center items-center gap-10 my-36" id="About">
                 <div className="upper">
                     <h2 className="text-xl lg:text-5xl  2xl:text-7xl font-semibold tracking-widest subpixel-antialiased ">Try.Learn.Repeat.</h2>
                 </div>
-                <div className="middle px-4">
+                <div className="middle px-4 ">
                     <h2 className="font-recursive text-xl lg:text-3xl 2xl:text-5xl text-center ">Culina is a brand-new website tutor, which can open you the world of cooking</h2>
                 </div>
                 <div className="bottom">
@@ -57,8 +60,8 @@ export default function WelcomePage() {
                 </div>
                 </div>
 
-            <div className="flex flex-col lg:flex-row justify-between items-center mx-auto gap-10 my-10 p-6">
-                <div className="card flex flex-col bg-nedoorange rounded-3xl p-5 gap-5 shadow-lg">
+            <div className="flex flex-col lg:flex-row justify-between items-center mx-auto gap-10 my-10 p-6" id = "Pricing">
+                <div className="card flex flex-col bg-nedoorange rounded-3xl p-5 gap-5 shadow-lg" >
                     <div className="">
                         <p className="text-xl 2xl:text-5xl bg-black inline-block p-4 rounded-xl text-nedowhite">Basic</p>
                     </div>

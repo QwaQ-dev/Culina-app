@@ -6,6 +6,10 @@
 *{
     font-family: "Montserrat";
 }
+html{
+    scroll-behavior: smooth;
+}
+
 
 .truncate {
     overflow: hidden;
