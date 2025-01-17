@@ -1,8 +1,9 @@
-import Link from "next/link";
+"use client"
 
 import AuthLayout from "./auth-layout"
 import { Montserrat } from "next/font/google";
 import { Recursive } from "next/font/google";
+import { useRouter } from "next/navigation";
 
 
 const montserrat = Montserrat({
@@ -20,6 +21,7 @@ const lastcomponent = <a href={"/sign-up"}>
                       </a>
 
 export default function WelcomePage() {
+    const router = useRouter()
     return(
         <AuthLayout lastcomp={lastcomponent} className="font-montserrat fixed">
             <div className="top-main flex  flex-col justify-center items-center gap-10 my-36" id="About">
@@ -30,7 +32,7 @@ export default function WelcomePage() {
                     <h2 className="font-recursive text-xl lg:text-3xl 2xl:text-5xl text-center ">Culina is a brand-new website tutor, which can open you the world of cooking</h2>
                 </div>
                 <div className="bottom">
-                    <button className="relative inline-block py-2 px-6 2xl:p-4 2xl:px-12 border-2 rounded-sm border-nedoblack text-2xl lg:text-4xl 2xl:text-5xl text-nedowhite bg-no-repeat hover:bg-gradient-to-hover bg-center bg-nedoblack transition-colors duration-500 hover:text-nedoblack hover:animate-fill-center hover:border-nedoblack">
+                    <button onClick={()=>{router.push("/sign-up")}} href="/sign-up" className="relative inline-block py-2 px-6 2xl:p-4 2xl:px-12 border-2 rounded-sm border-nedoblack text-2xl lg:text-4xl 2xl:text-5xl text-nedowhite bg-no-repeat hover:bg-gradient-to-hover bg-center bg-nedoblack transition-colors duration-500 hover:text-nedoblack hover:animate-fill-center hover:border-nedoblack">
                         Explore
                     </button>
                 </div>

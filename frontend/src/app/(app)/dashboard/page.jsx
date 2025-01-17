@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+
 import { FaSearch } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
