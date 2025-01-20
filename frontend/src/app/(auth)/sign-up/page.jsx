@@ -11,7 +11,7 @@ const montserrat = Montserrat({
 
 const lastComponent = <a href={"/sign-in"}>
                         <button className="relative inline-block py-2 px-2 sm:py-2 sm:px-6 border-2 rounded-xl border-nedoblack sm:text-2xl 2xl:text-3xl text-nedowhite bg-no-repeat hover:bg-gradient-to-hover bg-center bg-nedoblack transition-colors duration-500 hover:text-nedoblack hover:animate-fill-center hover:border-nedoblack ">
-                            Sign Up
+                            Sign In
                         </button>
                       </a>
 
@@ -79,7 +79,7 @@ export default function SignUp() {
                             name = "password" 
                             className="py-2 px-4 border-nedoblack border-2 rounded-lg" required/>
                         <button className="relative inline-block py-2 px-6 border-2  rounded-xl border-nedoblack text-nowrap text-xl text-nedowhite bg-no-repeat hover:bg-gradient-to-hover bg-center bg-nedoblack transition-colors duration-300 hover:text-nedoblack hover:animate-fill-center hover:border-nedoblack">
-                            Sign Up
+                            Join Us
                         </button>
                         {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
                     </form>
