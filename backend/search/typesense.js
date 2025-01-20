@@ -27,7 +27,8 @@ async function createCollectionIfNotExist() {
                     { 'name': 'diff', 'type': 'string' },
                     { 'name': 'filters', 'type': 'string[]' },
                     { 'name': 'imgs', 'type': 'string[]' },
-                    { 'name': 'author', 'type': 'string' }
+                    { 'name': 'author', 'type': 'string' },
+                    { 'name': 'ingredients', 'type': 'string[]' }
                 ]
             };
             await client.collections().create(schema);
@@ -53,6 +54,7 @@ async function typesenseFill() {
             filters: JSON.parse(receipt.filters),
             imgs: Object.values(receipt.imgs),
             author: receipt.author,
+            ingredients: receipt.ingredients
         }));
 
         const result = await client.collections('receipts').documents().import(formattedReceipts, { action: 'create' });
