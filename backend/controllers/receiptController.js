@@ -1,56 +1,62 @@
-const { Receipts } = require("../models/models");
+const { Receipts, Reviews } = require("../models/models");
 const { client, retrive } = require('../search/Typesense');
 
 class ReceiptController{
     async createReceipt(req, res){
-        const {name, descr, diff, filters, author} = req.body;
+        const {name, descr, diff, filters, author, steps, ingredients} = req.body;
         const imagesUrl = req.images;
-    
+
+        const ingredientsArray = JSON.parse(ingredients).map(item => 
+            `${item.ingredient_name}: ${item.quantity}`
+        );
+
+        const stepArray = JSON.parse(steps).map(item => 
+            `${item.step_number}: ${item.step_description}`
+        );
+
         if(!imagesUrl) {
             return res.status(500).json({message: "Error uploading images"})
         }
     
         try {
+            // Создание рецепта в базе данных
+            const newReceipt = await Receipts.create({
+                name,
+                descr,
+                diff,
+                filters,
+                imgs: imagesUrl,
+                author,
+                ingredients: ingredientsArray,
+                steps: stepArray
+            });
+            console.log('New receipt created:', newReceipt);
+
             try {
-                const newReceipt = await Receipts.create({
-                    name,
-                    descr,
-                    diff,
-                    filters,
-                    imgs: imagesUrl,
-                    author
-                });
-                console.log('New receipt created:', newReceipt); 
-            } catch (error) {
-                console.error('Error adding receipt to DB:', error.message);
-                return res.status(500).json({
-                    message: "Error with adding receipt to DB",
-                    error: error.message
-                });
-            }
-            
-    
-            try {
+                // Отправляем данные в Typesense
                 const type = await client.collections('receipts').documents().create({
+                    id: newReceipt.id.toString(),
                     name: name,
                     descr: descr,
                     diff: diff,
                     filters: Array.isArray(filters) ? filters : JSON.parse(filters),
                     imgs: Array.isArray(imagesUrl) ? imagesUrl : Object.values(imagesUrl),
                     author: author,
+                    ingredients: ingredientsArray, // передаем как массив
                 });
+                
                 await retrive();
                 console.log('Document added to Typesense:', type);
             } catch (error) {
                 console.error('Error adding document to Typesense:', error.response?.data || error.message);
                 return res.status(500).json({
                     message: "Error with adding receipt to Typesense",
-                    error: error.message
+                    error: error.message,
                 });
             }
-            
     
-            return res.status(200).json({message: "Receipt added"});
+            return res.status(200).json({ message: "Receipt added" });
+    
         } catch (error) {
             return res.status(500).json({
                 message: "Error with adding receipt",
@@ -60,24 +66,45 @@ class ReceiptController{
     }
 
     async oneReceipt(req, res){
-        const id = req.params.id;
+        const receiptId = req.params.id;
 
         try {
             const receipt = await Receipts.findOne({
-                where: {
-                    id: id
-                }
+                where: { id: receiptId },
+                include: [
+                    {
+                        model: Reviews,
+                        as: 'reviews'
+                    },
+                ],
             });
 
-            if(receipt.length === 0) {
+            if(!receipt) {
                 return res.status(500).json({message: "No receipt with this id"});
-            } else {
-                return res.status(200).json(receipt);
-            }
+            } 
+            
+            return res.status(200).json(receipt);
         } catch (error) {
             return res.status(500).json({message: "Error with getting card by id", error: error.message});
         }
     };
+
+    async addReview(req, res) {
+        const { reviewText, receiptId, ratingValue, reviwedBy } = req.body;
+
+        try {
+            await Reviews.create({
+                receipt_id: receiptId,
+                review_text: reviewText,
+                rating_value: ratingValue,
+                reviewed_by: reviwedBy   
+            })
+
+            return res.status(200).json({message: "Review has been added"});
+        } catch (error) {
+            return res.status(500).json({message: "Error with adding review", error: error.message});
+        }
+    }
 
     async allReceipts(req, res){
         try {
@@ -142,8 +169,6 @@ class ReceiptController{
             return res.status(500).json({ message: "Error with searching", error: error.message });
         }
     }
-    
-    
 }
 
 module.exports = new ReceiptController();

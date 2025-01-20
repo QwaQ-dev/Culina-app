@@ -22,10 +22,11 @@ app.use('/api/v1', apiRouter);
 const start = async () => {
     try {
         await sequelize.authenticate();
-        await sequelize.sync();
+        sequelize.sync()
+        .then(() => console.log("DB synced"))
+        .catch((err) => console.error("Error syncing DB", err));
 
         await createCollectionIfNotExist(); 
-        await typesenseFill();
 
         app.listen(PORT, () => {
             console.log(`Server running on port ${PORT}`);
