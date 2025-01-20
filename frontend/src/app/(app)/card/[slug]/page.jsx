@@ -45,7 +45,7 @@ export default function ReceiptCard() {
 
     if (loading) {
         return (
-            <Loggedlayout lastcomp={lastComponent} isFixed={true}>
+            <Loggedlayout lastcomp = {<UserInfo username={"danil"} image={"/avatars/chef.png"} recipes={123}/>} isFixed={true}>
                 <div className="container mx-auto p-6 sm:p-12 flex items-center justify-center text-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-black"></div>
                     <p className="text-lg text-gray-600 ml-4">Loading...</p>
@@ -56,7 +56,7 @@ export default function ReceiptCard() {
 
     if (error) {
         return (
-            <Loggedlayout lastcomp={lastComponent} isFixed={true}>
+            <Loggedlayout lastcomp = {<UserInfo username={"danil"} image={"/avatars/chef.png"} recipes={123}/>} isFixed={true}>
                 <div className="container mx-auto p-6 sm:p-12 flex flex-col items-center text-center">
                     <h1 className="text-3xl sm:text-5xl font-bold text-black mb-4">
                         Oops! Recipe Not Found
@@ -77,7 +77,7 @@ export default function ReceiptCard() {
 
 
     return (
-        <Loggedlayout lastcomp={lastComponent} >
+        <Loggedlayout lastcomp = {<UserInfo username={"danil"} image={"/avatars/chef.png"} recipes={123}/>} >
             <div className="container mx-auto p-6 sm:p-12 ">
                 <div className="text-center mb-8">
                     <h1 className="text-4xl sm:text-6xl font-bold mb-4 text-black">

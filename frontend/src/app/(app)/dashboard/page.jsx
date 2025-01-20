@@ -11,20 +11,10 @@ import Filter from "@/app/components/Filter/Filter";
 import SearchCard from "@/app/components/Search/SearchCard/SearchCard";
 import { getAllCards } from "@/app/api/cards/getAllCards/getAllCards";
 import { getSearchItem } from "@/app/api/search/getSearchItem";
+import UserInfo from "@/app/components/UserInfo/UserInfo";
 
-const lastComponent = (
-  <div className="flex flex-row gap-5">
-    <div className="border-black rounded-xl p-2 cursor-pointer">
-      <a href="/">
-        <img src="avatars/chef-woman.png" className="w-14" alt="Chef Avatar" />
-      </a>
-    </div>
-    <div className="flex flex-col items-center justify-center">
-      <h2 className="text-center text-xl">Danil</h2>
-      <p className="text-base font-thin">123 recipes</p>
-    </div>
-  </div>
-);
+
+
 
 const filters = [
   { title: "Difficult", options: ["Ease", "Medium", "Hard"] },
@@ -74,7 +64,7 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <Loggedlayout lastcomp={lastComponent} isFixed={true}>
+      <Loggedlayout lastcomp = {<UserInfo username={"danil"} image={"/avatars/chef.png"} recipes={123}/>} isFixed={true}>
         <div className="container mx-auto p-6 sm:p-12 flex items-center justify-center text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-black"></div>
           <p className="text-lg text-gray-600 ml-4">Loading...</p>
@@ -84,7 +74,7 @@ export default function Dashboard() {
   }
 
   return (
-    <Loggedlayout lastcomp={lastComponent}>
+    <Loggedlayout lastcomp = {<UserInfo username={"danil"} image={"/avatars/chef.png"} recipes={123}/>} >
       <div className="flex mx-auto">
         <Slider />
       </div>
