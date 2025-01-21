@@ -1,5 +1,5 @@
 const Typesense = require("typesense");
-const { Receipts } = require('../models/models');
+const { Recipes } = require('../models/models');
 
 const client = new Typesense.Client({
     'nodes': [{
@@ -15,11 +15,11 @@ const client = new Typesense.Client({
 async function createCollectionIfNotExist() {
     try {
         const collections = await client.collections().retrieve();
-        const collectionExists = collections.some(col => col.name === 'receipts');
+        const collectionExists = collections.some(col => col.name === 'recipes');
         if (!collectionExists) {
-            console.log('Creating collection "receipts"...');
+            console.log('Creating collection "recipes"...');
             const schema = {
-                'name': 'receipts',
+                'name': 'recipes',
                 'fields': [
                     { 'name': 'id', 'type': 'string' },
                     { 'name': 'name', 'type': 'string' },
@@ -32,7 +32,7 @@ async function createCollectionIfNotExist() {
                 ]
             };
             await client.collections().create(schema);
-            console.log('Collection "receipts" created');
+            console.log('Collection "recipes" created');
 
             await new Promise(resolve => setTimeout(resolve, 10000));
         }
@@ -46,18 +46,18 @@ async function typesenseFill() {
     try {
         await createCollectionIfNotExist();
         
-        const receiptsFromDB = await Receipts.findAll();
-        const formattedReceipts = receiptsFromDB.map((receipt) => ({
-            name: receipt.name,
-            descr: receipt.descr,
-            diff: receipt.diff,
-            filters: JSON.parse(receipt.filters),
-            imgs: Object.values(receipt.imgs),
-            author: receipt.author,
-            ingredients: receipt.ingredients
+        const recipesFromDB = await Recipes.findAll();
+        const formattedRecipes = recipesFromDB.map((recipe) => ({
+            name: recipe.name,
+            descr: recipe.descr,
+            diff: recipe.diff,
+            filters: JSON.parse(recipe.filters),
+            imgs: Object.values(recipe.imgs),
+            author: recipe.author,
+            ingredients: recipe.ingredients
         }));
 
-        const result = await client.collections('receipts').documents().import(formattedReceipts, { action: 'create' });
+        const result = await client.collections('recipes').documents().import(formattedRecipes, { action: 'create' });
         console.log("Documents added to Typesense:", result);
     } catch (error) {
         console.error("Error while adding documents to Typesense:", error);
@@ -66,8 +66,8 @@ async function typesenseFill() {
 
 async function deleteTypesense() {
     try {
-        const del = await client.collections('receipts').delete();
-        console.log("Collection 'receipts' deleted.");
+        const del = await client.collections('recipes').delete();
+        console.log("Collection 'recipes' deleted.");
     } catch (error) {
         console.error("Error while deleting collection:", error);
     }
@@ -75,7 +75,7 @@ async function deleteTypesense() {
 
 async function retrive() {
     try {
-        const retrive = await client.collections('receipts').retrieve();
+        const retrive = await client.collections('recipes').retrieve();
         console.log("Collection schema:", retrive);
     } catch (error) {
         console.error("Error while retrieving collection:", error);

@@ -25,7 +25,8 @@ class UserController{
                 username, 
                 password: hashedPassword, 
                 role: 'Basic', 
-                sex: 'male'
+                sex: 'male',
+                recipes_count: '0'
             });
             
             const token = generateJwt(username, 'Basic', 'male');
