@@ -1,8 +1,8 @@
-const { Receipts, Reviews } = require("../models/models");
+const { Recipes, Reviews } = require("../models/models");
 const { client, retrive } = require('../search/Typesense');
 
-class ReceiptController{
-    async createReceipt(req, res){
+class RecipesController{
+    async createRecipe(req, res){
         const {name, descr, diff, filters, author, steps, ingredients} = req.body;
         const imagesUrl = req.images;
 
@@ -20,7 +20,7 @@ class ReceiptController{
     
         try {
             // Создание рецепта в базе данных
-            const newReceipt = await Receipts.create({
+            const newRecipe = await Recipes.create({
                 name,
                 descr,
                 diff,
@@ -30,12 +30,12 @@ class ReceiptController{
                 ingredients: ingredientsArray,
                 steps: stepArray
             });
-            console.log('New receipt created:', newReceipt);
+            console.log('New recipe created:', newRecipe.dataValues);
 
             try {
                 // Отправляем данные в Typesense
-                const type = await client.collections('receipts').documents().create({
-                    id: newReceipt.id.toString(),
+                const type = await client.collections('recipes').documents().create({
+                    id: newRecipe.id.toString(),
                     name: name,
                     descr: descr,
                     diff: diff,
@@ -50,27 +50,27 @@ class ReceiptController{
             } catch (error) {
                 console.error('Error adding document to Typesense:', error.response?.data || error.message);
                 return res.status(500).json({
-                    message: "Error with adding receipt to Typesense",
+                    message: "Error with adding recipe to Typesense",
                     error: error.message,
                 });
             }
     
-            return res.status(200).json({ message: "Receipt added" });
+            return res.status(200).json({ message: "recipe added" });
     
         } catch (error) {
             return res.status(500).json({
-                message: "Error with adding receipt",
+                message: "Error with adding recipe",
                 error: error.message
             });
         }
     }
 
-    async oneReceipt(req, res){
-        const receiptId = req.params.id;
+    async oneRecipe(req, res){
+        const recipeId = req.params.id;
 
         try {
-            const receipt = await Receipts.findOne({
-                where: { id: receiptId },
+            const recipe = await Recipes.findOne({
+                where: { id: recipeId },
                 include: [
                     {
                         model: Reviews,
@@ -79,22 +79,22 @@ class ReceiptController{
                 ],
             });
 
-            if(!receipt) {
-                return res.status(500).json({message: "No receipt with this id"});
+            if(!recipe) {
+                return res.status(500).json({message: "No recipe with this id"});
             } 
             
-            return res.status(200).json(receipt);
+            return res.status(200).json(recipe);
         } catch (error) {
             return res.status(500).json({message: "Error with getting card by id", error: error.message});
         }
     };
 
     async addReview(req, res) {
-        const { reviewText, receiptId, ratingValue, reviwedBy } = req.body;
+        const { reviewText, recipeId, ratingValue, reviwedBy } = req.body;
 
         try {
             await Reviews.create({
-                receipt_id: receiptId,
+                recipe_id: recipeId,
                 review_text: reviewText,
                 rating_value: ratingValue,
                 reviewed_by: reviwedBy   
@@ -106,49 +106,49 @@ class ReceiptController{
         }
     }
 
-    async allReceipts(req, res){
+    async allRecipes(req, res){
         try {
-            const request = await Receipts.findAll();
-            let receipts = [];
+            const request = await Recipes.findAll();
+            let recipe = [];
 
             request.forEach((el) => {
-                receipts.push(el);
+                recipe.push(el);
             });
 
-            return res.status(200).json(receipts)
+            return res.status(200).json(recipe)
         } catch (error) {
-            return res.status(500).json({message: "Error with getting all receipts", error: error.message});
+            return res.status(500).json({message: "Error with getting all recipe", error: error.message});
         }
     };
 
-    async userReceipts(req, res){
+    async userRecipes(req, res){
         const author = req.params.author;
 
         try {
-            const request = await Receipts.findAll({
+            const request = await Recipes.findAll({
                 where: {
                     author: author
                 }
             });
 
             if(request.length === 0){
-                return res.status(500).json({message: "This user has no receipts yet"})
+                return res.status(500).json({message: "This user has no recipes yet"})
             } else {
-                let receipts = [];
+                let recipes = [];
 
                 request.forEach((el) => {
-                    receipts.push(el);
+                    recipes.push(el);
                 });
 
-                return res.status(200).json(receipts);
+                return res.status(200).json(recipes);
             }
             
         } catch (error) {
-            return res.status(500).json({message: "Error with getting user receipts", error: error.message});
+            return res.status(500).json({message: "Error with getting user recipes", error: error.message});
         };
     };
 
-    async searchReceipts(req, res) { 
+    async searchRecipes(req, res) { 
         const query = req.params.query;  
         try {
             const searchParams = {
@@ -156,13 +156,13 @@ class ReceiptController{
                 'query_by': 'name,descr,author'  
             };
         
-            const search = await client.collections('receipts').documents().search(searchParams);
+            const search = await client.collections('recipe').documents().search(searchParams);
     
             if (search.hits && search.hits.length > 0) {
-                const receipts = search.hits.map(hit => hit.document);
-                return res.status(200).json(receipts);
+                const recipes = search.hits.map(hit => hit.document);
+                return res.status(200).json(recipes);
             } else {
-                return res.status(404).json({ message: "No receipts found" });
+                return res.status(404).json({ message: "No recipes found" });
             }
         } catch (error) {
             console.error("Error with searching:", error);
@@ -171,4 +171,4 @@ class ReceiptController{
     }
 }
 
-module.exports = new ReceiptController();
+module.exports = new RecipesController();

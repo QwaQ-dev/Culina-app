@@ -18,10 +18,10 @@ const avatarStorage = multer.diskStorage({
 });
 
 
-const receiptsImagesStorage = multer.diskStorage({
+const recipeImagesStorage = multer.diskStorage({
     destination: async (req, file, cb) => {
         const author = req.body.author;
-        const path = `./uploads/users/${author}/receipts-imgs/`
+        const path = `./uploads/users/${author}/recipes-imgs/`
         try {
             await fs.ensureDir(path);
             cb(null, path);
@@ -43,7 +43,7 @@ const fileFilter = (req, file, cb) => {
 };
 
 const uploadImages = multer({
-    storage: receiptsImagesStorage,
+    storage: recipeImagesStorage,
     fileFilter: fileFilter
 });
 
@@ -63,13 +63,13 @@ const uploadUserAvatar = (req, res, next) => {
     });
 };
 
-const uploadReceiptImagesMiddleware = uploadImages.array("receiptImages", 5);
+const uploadRecipeImagesMiddleware = uploadImages.array("recipeImages", 5);
 
-const uploadReceiptImages = (req, res, next) => {
-    uploadReceiptImagesMiddleware(req, res, (err) => {
+const uploadRecipeImages = (req, res, next) => {
+    uploadRecipeImagesMiddleware(req, res, (err) => {
         if(err){
             return res.status(500).json({
-                message: "Error uploading receipt images!", 
+                message: "Error uploading recipe images!", 
                 error: err.message});
         }
         let images = {};
@@ -86,5 +86,5 @@ const uploadReceiptImages = (req, res, next) => {
 
 module.exports = {
     uploadUserAvatar,
-    uploadReceiptImages
+    uploadRecipeImages
 };

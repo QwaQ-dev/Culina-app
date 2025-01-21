@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 8080;
 
 app.use(cors());
 app.use(express.json());
-app.use('/uploads/users/:author/receipts-imgs/*', uploadImagesMiddleware);
+app.use('/uploads/users/:author/recipes-imgs/*', uploadImagesMiddleware);
 app.use('/api/v1', apiRouter);
 
 
@@ -26,8 +26,9 @@ const start = async () => {
         .then(() => console.log("DB synced"))
         .catch((err) => console.error("Error syncing DB", err));
 
-        await createCollectionIfNotExist(); 
-
+        await createCollectionIfNotExist( ); 
+        await typesenseFill();
+        
         app.listen(PORT, () => {
             console.log(`Server running on port ${PORT}`);
         });

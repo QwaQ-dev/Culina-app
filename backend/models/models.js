@@ -25,10 +25,14 @@ const User = sequelize.define('users', {
     sex: {
         type: DataTypes.STRING, 
         defaultValue:"male"
+    },
+    recipes_count: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0
     }
 });
 
-const Receipts = sequelize.define('receipts', {
+const Recipes = sequelize.define('recipes', {
     id: {
         type: DataTypes.INTEGER, 
         primaryKey: true, 
@@ -51,7 +55,8 @@ const Receipts = sequelize.define('receipts', {
         type: DataTypes.JSONB
     },
     author: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false
     },
     ingredients: {
         type: DataTypes.JSONB,
@@ -66,7 +71,6 @@ const Reviews = sequelize.define('reviews', {
         type: DataTypes.INTEGER, 
         primaryKey: true, 
         autoIncrement: true,
-        allowNull: true
     },
     review_text: {
         type: DataTypes.TEXT,
@@ -85,14 +89,11 @@ const Reviews = sequelize.define('reviews', {
 
 
 
-Receipts.hasMany(Reviews, { foreignKey: 'receipt_id', as: 'reviews' });
-Reviews.belongsTo(Receipts, { foreignKey: 'receipt_id', as: 'receipt' });
-
-User.hasMany(Receipts, { foreignKey: 'author', as: 'receipts' });
-Receipts.belongsTo(User, { foreignKey: 'author', as: 'user' });
+Recipes.hasMany(Reviews, { foreignKey: 'recipe_id', as: 'reviews' });
+Reviews.belongsTo(Recipes, { foreignKey: 'recipe_id', as: 'recipe' });
 
 module.exports = {
     User,
-    Receipts,
+    Recipes,
     Reviews
 }

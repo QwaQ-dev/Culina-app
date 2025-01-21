@@ -4,7 +4,7 @@ import  { getSingleCard }  from "@/app/api/cards/getSingleCard/getSingleCard";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import Loggedlayout from "../../logged-layout";
-
+import UserInfo from "@/app/components/UserInfo/UserInfo";
 
 
 const lastComponent = <div className="flex flex-row gap-5">
