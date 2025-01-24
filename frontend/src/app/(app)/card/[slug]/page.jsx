@@ -20,7 +20,7 @@ const lastComponent = <div className="flex flex-row gap-5">
                     </div> 
 
 
-export default function ReceiptCard() {
+export default function RecipeCard() {
     const [cards, setCards] = useState(null); 
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true); 
@@ -35,7 +35,7 @@ export default function ReceiptCard() {
                 setCards(response.data);
             } catch (err) {
                 console.log(err);
-                setError("Receipt is not found");
+                setError("Recipe is not found");
             } finally {
                 setLoading(false);
             }
