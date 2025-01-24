@@ -20,6 +20,7 @@ import StepCard from "@/app/components/StepCard/StepCard";
 export default function uploadCard(){
   const [isOpen, setIsOpen] = useState(false)
   const [name, setName] = useState("")
+  const [descr, setDescr] = useState("")
   const [images, setImages] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [nutrients, setNutrients] = useState([{
@@ -111,12 +112,14 @@ export default function uploadCard(){
   };
   
   const updateSteps = (id, field, value) => {
+
     setSteps((prevSteps) =>
       (prevSteps || []).map((step) =>
         step.id === id ? { ...step, [field]: value } : step
       )
     );
   };
+  
   
 
   const handleFileChange = (event) => {
@@ -291,14 +294,23 @@ export default function uploadCard(){
 
         </section>
         <div className="col-span-3 mt-6 mx-auto">
-          <div className="left-0">
+          <div className="left-0 flex flex-col gap-6" >
             <input
-              placeholder="Insert your dish name here..."
+              placeholder="Type your dish name here..."
               name="name" 
               id="" 
               value={name} 
-              className="bg-none border-2 px-6 text-xl border-black/60 rounded-xl h-16 w-96 focus:outline-none"
+              className="bg-nedowhite border-2 px-6 text-xl border-black/60 rounded-xl h-16 w-96 focus:outline-none"
               onChange={(e)=>setName(e.target.value)}/>
+              <input 
+                type="text" 
+                placeholder="Type dish description.. "    
+                className="bg-nedowhite border-2 border-black/80 rounded-lg h-24 px-6 focus:outline-none " 
+                value={descr}
+                onChange={(e)=>setDescr(e.target.value)}
+                name="" 
+                id="" />
+              
           </div>
           <div className="mt-10 flex flex-row items-center  my-auto gap-4">
             
@@ -395,7 +407,7 @@ export default function uploadCard(){
           <div className="flex flex-col gap-3 mt-10">
             {steps.map((step, index) => (
               <StepCard
-                key={`${step.id} + ${index} + ${step.name}` }
+                key={step.id}
                 stepName={step.name}
                 onChangeStep={(e) => updateSteps(step.id, "name", e.target.value)}
                 onDelete={() => removeSteps(step.id)}
