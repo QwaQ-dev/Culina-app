@@ -1,6 +1,6 @@
 # Recipe Web App 🍳  
 
-A collaborative web application designed to educate users about cooking through interactive and informative features. This project is a joint effort, where I am focused on front-end development, and my brother handles the back-end.  
+A collaborative web application designed to educate users about cooking through interactive and informative features.
 
 ## 💻 Tech Stack  
 - **Frontend:** Next.js, React(Danil)  
