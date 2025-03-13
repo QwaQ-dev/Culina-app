@@ -3,7 +3,9 @@ version: '3.7'
 services:
   backend:
     container_name: server
-    build: .
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
     ports: 
       - '8080:8080'
     depends_on: 
@@ -14,6 +16,8 @@ services:
     environment:
       - DB_HOST=culina-db
       - DB_PORT=5432
+    volumes:
+      - ./backend:/app 
 
   culina-db:
     container_name: culina-db
