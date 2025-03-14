@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/qwaq-dev/culina/internal/repository/postgres"
 	"github.com/qwaq-dev/culina/internal/repository/typesense"
 	"github.com/qwaq-dev/culina/internal/routes"
@@ -22,6 +23,12 @@ func main() {
 	app := fiber.New()
 	cfg := config.MustLoad()
 	log := setupLoger(cfg.Env)
+
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*", // Разрешает все домены (можно указать конкретные)
+		AllowMethods: "GET,POST,PUT,DELETE,OPTIONS",
+		AllowHeaders: "Origin, Content-Type, Accept",
+	}))
 
 	db, err := postgres.InitDataBase(cfg.Database, log)
 	if err != nil {
