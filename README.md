@@ -4,7 +4,7 @@ A collaborative web application designed to educate users about cooking through 
 
 ## 💻 Tech Stack  
 - **Frontend:** Next.js, React(Danil)  
-- **Backend:** Node.js (Egor)
+- **Backend:** Golang (Egor)
 - **Styling:** Tailwind CSS (or other CSS libraries if applicable)
 - **Clever Search:** TypeSense for searching
 
