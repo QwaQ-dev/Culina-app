@@ -4,9 +4,11 @@ import (
 	"log/slog"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/qwaq-dev/culina/internal/config"
 	"github.com/qwaq-dev/culina/internal/handlers"
 	"github.com/qwaq-dev/culina/internal/repository"
 	"github.com/qwaq-dev/culina/internal/repository/typesense"
+	"github.com/qwaq-dev/culina/pkg/jwt/middleware"
 )
 
 func InitRoutes(
@@ -15,11 +17,17 @@ func InitRoutes(
 	profileRepo repository.ProfileRepository,
 	dashboardRepo repository.DashboardRepository,
 	ts typesense.Typesense,
+	cfg config.Config,
 ) {
-	dashboard := app.Group("/dashboard")
-	profile := app.Group("/profile")
+
+	authorizedGroup := app.Group("/auth")
+	authorizedGroup.Use(middleware.JWTProtected)
+
+	dashboard := authorizedGroup.Group("/dashboard")
+	profile := authorizedGroup.Group("/profile")
 	user := app.Group("/user")
-	userHandler := handlers.NewUserHandler(userRepo, log)
+
+	userHandler := handlers.NewUserHandler(userRepo, log, cfg)
 	profileHandler := handlers.NewProfileHandler(profileRepo, log)
 	dashboardHandler := handlers.NewDashboardHandler(dashboardRepo, log, ts)
 
@@ -40,7 +48,6 @@ func InitRoutes(
 	//Routes for user
 	user.Post("/sign-in", userHandler.SignIn)
 	user.Post("/sign-up", userHandler.SignUp)
-	user.Get("/auth", userHandler.Auth)
 
-	log.Debug("All routes was initialized")
+	log.Debug("All routes were initialized")
 }

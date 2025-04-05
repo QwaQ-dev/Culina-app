@@ -6,7 +6,7 @@ import (
 	"log/slog"
 
 	_ "github.com/lib/pq"
-	"github.com/qwaq-dev/culina/pkg/config"
+	"github.com/qwaq-dev/culina/internal/config"
 	"github.com/qwaq-dev/culina/pkg/logger/sl"
 )
 

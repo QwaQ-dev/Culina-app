@@ -6,10 +6,10 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/qwaq-dev/culina/internal/config"
 	"github.com/qwaq-dev/culina/internal/repository/postgres"
 	"github.com/qwaq-dev/culina/internal/repository/typesense"
 	"github.com/qwaq-dev/culina/internal/routes"
-	"github.com/qwaq-dev/culina/pkg/config"
 	"github.com/qwaq-dev/culina/pkg/logger/handlers/slogpretty"
 	"github.com/qwaq-dev/culina/pkg/logger/sl"
 )
@@ -25,7 +25,7 @@ func main() {
 	log := setupLoger(cfg.Env)
 
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: "*", // Разрешает все домены (можно указать конкретные)
+		AllowOrigins: "*",
 		AllowMethods: "GET,POST,PUT,DELETE,OPTIONS",
 		AllowHeaders: "Origin, Content-Type, Accept",
 	}))
@@ -49,7 +49,7 @@ func main() {
 
 	dashboardRepo.StartReviewWorker(log)
 
-	routes.InitRoutes(app, log, userRepo, profileRepo, dashboardRepo, *ts)
+	routes.InitRoutes(app, log, userRepo, profileRepo, dashboardRepo, *ts, *cfg)
 
 	log.Info("Server started", slog.String("port", cfg.Server.Port))
 	app.Listen(cfg.Server.Port)
