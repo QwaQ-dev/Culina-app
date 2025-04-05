@@ -10,7 +10,7 @@ import  Settings  from "@/app/components/profileSideBar/Settings/Settings";
 
 const lastComponent = <div>
                             <button className="relative inline-block py-2 px-2 sm:py-2 sm:px-6 border-2 rounded-xl border-nedoblack sm:text-2xl 2xl:text-3xl text-nedowhite bg-no-repeat hover:bg-gradient-to-hover bg-center bg-nedoblack transition-colors duration-500 hover:text-nedoblack hover:animate-fill-center hover:border-nedoblack ">
-                                Add receipt
+                                Add recipe
                             </button>
                     </div>
                 
@@ -80,7 +80,7 @@ export default function Profile(){
                     ))}
                 </ul>
             </div>
-            <div className="w-full h-full overflow-hidden">
+            <div className="w-full h-full  mb-10">
                 {activeTab === "about" && <About />}
                 {activeTab === "recipes" && <Recipes />}
                 {activeTab === "connection" && <Connection />}

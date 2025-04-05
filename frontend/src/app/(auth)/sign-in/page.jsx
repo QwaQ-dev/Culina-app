@@ -69,7 +69,7 @@ export default function SignIn() {
                                 }}
                                 name = "password" 
                                 className="py-2 px-4 border-nedoblack border-2 rounded-lg"/>
-                            <button className="relative inline-block py-2 px-6 border-2  rounded-xl border-nedoblack text-sm text-nowrap sm:text-xl text-nedowhite bg-no-repeat hover:bg-gradient-to-hover bg-center bg-nedoblack transition-colors duration-300 hover:text-nedoblack hover:animate-fill-center hover:border-nedoblack">
+                            <button type="submit" className="relative inline-block py-2 px-6 border-2  rounded-xl border-nedoblack text-sm text-nowrap sm:text-xl text-nedowhite bg-no-repeat hover:bg-gradient-to-hover bg-center bg-nedoblack transition-colors duration-300 hover:text-nedoblack hover:animate-fill-center hover:border-nedoblack">
                                 Sign In
                             </button>
                             {error && <p className="text-red-500 text-sm mt-2">{error}</p>}

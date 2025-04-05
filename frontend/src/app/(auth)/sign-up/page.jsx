@@ -17,7 +17,7 @@ const lastComponent = <a href={"/sign-in"}>
 
 export default function SignUp() {
     const [name, setName] = useState("");
-    const [e_mail, setEmail] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null)
 
@@ -29,10 +29,11 @@ export default function SignUp() {
         setError(null)
 
         try {
-            if(!e_mail || !name || !password){
+            if(!email || !name || !password){
                 setError("All fields should be filled")
             }
-            const response = await handlerSignUp(e_mail, name, password);
+            const response = await handlerSignUp(email, name, password);
+            console.log(response)
             if (response.data.JWT){
                 localStorage.setItem("token", response.data.JWT);
                 router.push("/dashboard");
@@ -59,7 +60,7 @@ export default function SignUp() {
                     >
                         <input 
                             type="text" 
-                            value = {e_mail} 
+                            value = {email} 
                             onChange={(e)=>{setEmail(e.target.value)}} 
                             placeholder="E-mail" 
                             name="email"  

@@ -27,9 +27,9 @@ export default function About(){
                         {activeTab === "password" && <ChangePassword />}
                     </div>
                     <img 
-                        src="gifs/plate.gif" 
-                        className="absolute top-1/2 -right-24 p-36 h-[40rem] w-3/4 transform -translate-y-1/2"
+                        src="gifs/signin.gif" 
                         alt="Plate" 
+                        className="w-96"
                     />
                 </div>
 
