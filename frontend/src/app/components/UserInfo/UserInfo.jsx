@@ -11,5 +11,5 @@ export default function UserInfo({image, username, recipes}){
             <p className="text-base font-thin">{recipes} recipes</p>
             </div>
         </div>
-        );
+        );  
 }
