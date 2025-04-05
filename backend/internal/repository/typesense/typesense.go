@@ -7,8 +7,8 @@ import (
 	"strings"
 
 	"github.com/gofiber/fiber/v2/log"
+	"github.com/qwaq-dev/culina/internal/config"
 	"github.com/qwaq-dev/culina/internal/repository/postgres"
-	"github.com/qwaq-dev/culina/pkg/config"
 	"github.com/qwaq-dev/culina/pkg/logger/sl"
 	"github.com/qwaq-dev/culina/structures"
 	"github.com/typesense/typesense-go/v3/typesense"

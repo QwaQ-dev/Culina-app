@@ -4,7 +4,9 @@ import (
 	"log/slog"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/qwaq-dev/culina/internal/config"
 	"github.com/qwaq-dev/culina/internal/repository"
+	generatetoken "github.com/qwaq-dev/culina/pkg/jwt/generateToken"
 	"github.com/qwaq-dev/culina/pkg/logger/sl"
 	"github.com/qwaq-dev/culina/structures"
 	"golang.org/x/crypto/bcrypt"
@@ -13,10 +15,11 @@ import (
 type UserHandler struct {
 	repo repository.UserRepository
 	log  *slog.Logger
+	cfg  config.Config
 }
 
-func NewUserHandler(repo repository.UserRepository, log *slog.Logger) *UserHandler {
-	return &UserHandler{repo: repo, log: log}
+func NewUserHandler(repo repository.UserRepository, log *slog.Logger, cfg config.Config) *UserHandler {
+	return &UserHandler{repo: repo, log: log, cfg: cfg}
 }
 
 //	JSON: {
@@ -40,7 +43,7 @@ func (h *UserHandler) SignIn(c *fiber.Ctx) error {
 
 	user, err := h.repo.SelectUser(req.Username, h.log)
 	if err != nil {
-		return c.Status(500).JSON(fiber.Map{"error": "Server error"})
+		return c.Status(500).JSON(fiber.Map{"error": "user not found"})
 	}
 
 	if user == nil {
@@ -52,14 +55,20 @@ func (h *UserHandler) SignIn(c *fiber.Ctx) error {
 		return c.Status(401).JSON(fiber.Map{"error": "Invalid password"})
 	}
 
+	token, err := generatetoken.GenerateToken(req.Username, h.cfg.JWTSecretKey)
+	if err != nil {
+		h.log.Error("Error with generating token wile sign in", sl.Err(err))
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Error with generating token wile sign in"})
+	}
+
 	h.log.Info("User has signed in", slog.String("username", user.Username))
-	return c.Status(200).JSON(fiber.Map{"message": "Successfully signed in", "user": user})
+	return c.Status(200).JSON(fiber.Map{"message": "Successfully signed in", "jwt": token})
 }
 
 //	JSON: {
 //		"email": ""
 //		"username": "",
-//		"password: ""
+//		"password": ""
 //	}
 func (h *UserHandler) SignUp(c *fiber.Ctx) error {
 	user := new(structures.User)
@@ -90,10 +99,12 @@ func (h *UserHandler) SignUp(c *fiber.Ctx) error {
 
 	user.Id = userId
 
-	h.log.Info("User has signed up", slog.String("username", user.Username))
-	return c.Status(200).JSON(fiber.Map{"userID": userId, "user": user})
-}
+	token, err := generatetoken.GenerateToken(user.Username, h.cfg.JWTSecretKey)
+	if err != nil {
+		h.log.Error("Error with generating token wile sign up", sl.Err(err))
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Error with generating token wile sign up"})
+	}
 
-func (h *UserHandler) Auth(c *fiber.Ctx) error {
-	return nil
+	h.log.Info("User has signed up", slog.String("username", user.Username))
+	return c.Status(200).JSON(fiber.Map{"jwt": token})
 }

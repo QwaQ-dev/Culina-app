@@ -8,10 +8,11 @@ import (
 )
 
 type Config struct {
-	Env       string `yaml:"env" env-default:"dev" env-requried:"true"`
-	Server    `yaml:"server"`
-	Database  `yaml:"database"`
-	Typesense `yaml:"typesense"`
+	Env          string `yaml:"env" env-default:"dev" env-requried:"true"`
+	JWTSecretKey string `yaml:"jwtsecretkey"`
+	Server       `yaml:"server"`
+	Database     `yaml:"database"`
+	Typesense    `yaml:"typesense"`
 }
 
 type Server struct {
