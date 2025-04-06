@@ -5,9 +5,9 @@ server:
 database:
   host: "localhost"
   port: "5432"
-  db_name: "Culina-app-go"
-  db_password: "qwaq"
-  db_username: "qwaq"
+  db_name: "Culina-app"
+  db_password: "root"
+  db_username: "postgres"
   sslmode: "disable"
 typesense:
   host: "http://localhost:8108"
