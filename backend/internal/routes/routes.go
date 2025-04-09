@@ -9,6 +9,7 @@ import (
 	"github.com/qwaq-dev/culina/internal/repository"
 	"github.com/qwaq-dev/culina/internal/repository/typesense"
 	"github.com/qwaq-dev/culina/pkg/jwt/middleware"
+	"github.com/redis/go-redis/v9"
 )
 
 func InitRoutes(
@@ -18,16 +19,17 @@ func InitRoutes(
 	dashboardRepo repository.DashboardRepository,
 	ts typesense.Typesense,
 	cfg config.Config,
+	redisClient redis.Client,
 ) {
 
 	authorizedGroup := app.Group("/auth")
-	authorizedGroup.Use(middleware.JWTProtected)
+	authorizedGroup.Use(middleware.JWTMiddleware(cfg.JWTSecretKey, &redisClient))
 
 	dashboard := authorizedGroup.Group("/dashboard")
 	profile := authorizedGroup.Group("/profile")
 	user := app.Group("/user")
 
-	userHandler := handlers.NewUserHandler(userRepo, log, cfg)
+	userHandler := handlers.NewUserHandler(userRepo, log, cfg, redisClient)
 	profileHandler := handlers.NewProfileHandler(profileRepo, log)
 	dashboardHandler := handlers.NewDashboardHandler(dashboardRepo, log, ts)
 
@@ -48,6 +50,7 @@ func InitRoutes(
 	//Routes for user
 	user.Post("/sign-in", userHandler.SignIn)
 	user.Post("/sign-up", userHandler.SignUp)
+	user.Get("/refresh", userHandler.Refresh)
 
 	log.Debug("All routes were initialized")
 }

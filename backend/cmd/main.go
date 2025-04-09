@@ -8,6 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/qwaq-dev/culina/internal/config"
 	"github.com/qwaq-dev/culina/internal/repository/postgres"
+	"github.com/qwaq-dev/culina/internal/repository/redis"
 	"github.com/qwaq-dev/culina/internal/repository/typesense"
 	"github.com/qwaq-dev/culina/internal/routes"
 	"github.com/qwaq-dev/culina/pkg/logger/handlers/slogpretty"
@@ -48,8 +49,11 @@ func main() {
 	}
 
 	dashboardRepo.StartReviewWorker(log)
-
-	routes.InitRoutes(app, log, userRepo, profileRepo, dashboardRepo, *ts, *cfg)
+	redisClient, err := redis.InitRedis(cfg.Redis.Addr, cfg.Redis.Pass)
+	if err != nil {
+		log.Error("Error with redis connetion")
+	}
+	routes.InitRoutes(app, log, userRepo, profileRepo, dashboardRepo, *ts, *cfg, redisClient)
 
 	log.Info("Server started", slog.String("port", cfg.Server.Port))
 	app.Listen(cfg.Server.Port)

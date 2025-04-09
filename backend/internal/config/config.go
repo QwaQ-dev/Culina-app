@@ -13,6 +13,12 @@ type Config struct {
 	Server       `yaml:"server"`
 	Database     `yaml:"database"`
 	Typesense    `yaml:"typesense"`
+	Redis        `yaml:"redis"`
+}
+
+type Redis struct {
+	Addr string `yaml:"redis_addr" env-required:"true"`
+	Pass string `yaml:"redis_pass"`
 }
 
 type Server struct {

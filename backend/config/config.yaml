@@ -1,11 +1,14 @@
 env: "dev"
 jwtsecretkey: "asdw1qp3ojsmdalcxz"
+redis:
+  redis_addr: "localhost:6379"
+  redis_pass: ""
 server:
   port: ":8080"
 database:
   host: "localhost"
   port: "5432"
-  db_name: "Culina-app-go"
+  db_name: "Culina-app"
   db_password: "qwaq"
   db_username: "qwaq"
   sslmode: "disable"
