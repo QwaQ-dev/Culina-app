@@ -89,9 +89,9 @@ export default function WelcomePage() {
             </div>
 
             <div className="flex flex-col lg:flex-row justify-between items-center mx-auto gap-10 my-24 mt-48 p-6" id = "Pricing">
-                {Object.entries(cardData).map((data) =>{
-                    return <WelcomePageCard key = {data[1].id} name={data[1].name} auditory = {data[1].auditory} price = {data[1].price}/>
-                })}
+                {Object.entries(cardData).map((data) =>(
+                     <WelcomePageCard key = {data[1].id} name={data[1].name} auditory = {data[1].auditory} price = {data[1].price}/>
+                ))}
             </div>
         </AuthLayout>
     );

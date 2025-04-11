@@ -1,5 +1,6 @@
 /backend/cmd/uploads
 /backend/cmd
+/backend/config
+/frontend/node_modules
 .codegpt
 .vscode
-/backend/config

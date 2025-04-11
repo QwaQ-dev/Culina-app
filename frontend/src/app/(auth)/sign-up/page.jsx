@@ -40,7 +40,6 @@ export default function SignUp() {
             }else{
                 setError("Something went wrong")
             }
-                    
         } catch (error) {
             setError(error.message || "User already exists")
             console.log(error)

@@ -5,8 +5,11 @@ export default function Connection(){
             <div className="mx-auto w-full">
                 <div className="flex p-10 mx-auto justify-center flex-col text-center">
                     {/* HIDE WHEN HAVING AT LEAST 1 MESSAGE */}
+{/*                     
                     <img src="gifs/profile-connection.gif" className=" w-64 h-64 mx-auto" alt="" />
-                    <p>Write whenever you need help!</p>
+                    <p>Write whenever you need help!</p> */}
+                    
+                
 
 
                 </div>
