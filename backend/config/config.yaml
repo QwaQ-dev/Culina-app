@@ -1,13 +1,21 @@
 env: "dev"
 jwtsecretkey: "asdw1qp3ojsmdalcxz"
+redis:
+  redis_addr: "localhost:6379"
+  redis_pass: ""
 server:
   port: ":8080"
 database:
   host: "localhost"
   port: "5432"
   db_name: "Culina-app"
+<<<<<<< HEAD
   db_password: "root"
   db_username: "postgres"
+=======
+  db_password: "qwaq"
+  db_username: "qwaq"
+>>>>>>> refs/remotes/origin/main
   sslmode: "disable"
 typesense:
   host: "http://localhost:8108"
