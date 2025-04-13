@@ -1,4 +1,4 @@
 /backend/cmd/uploads
 .codegpt
 .vscode
-/backend/config
+/backend/config/config.yaml

@@ -2,9 +2,11 @@ package postgres
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"log/slog"
 
+	"github.com/qwaq-dev/culina/pkg/logger/sl"
 	"github.com/qwaq-dev/culina/structures"
 )
 
@@ -36,6 +38,46 @@ func (r *PostgresProfileRepository) ChangeProfileData(column, newData, username 
 	return user, nil
 }
 
-func (r *PostgresProfileRepository) InsertUserRecipes(user *structures.User, log *slog.Logger) (*structures.Recipes, error) {
-	return nil, nil
+func (r *PostgresProfileRepository) SelectUserRecipes(authorId int, log *slog.Logger) ([]structures.Recipes, error) {
+	var recipes []structures.Recipes
+	recipesMap := make(map[int]*structures.Recipes)
+
+	query := `SELECT r.id, r.name, r.descr, r.diff, r.filters, r.imgs, 
+                 r.ingredients, r.steps, r.created_at, r.review_count, r.avg_rating, u.username
+          	  FROM recipes r
+          	  JOIN users u ON r.author_id = u.id
+			  WHERE r.author_id = $1`
+
+	rows, err := r.DB.Query(query, authorId)
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		var recipe structures.Recipes
+		var filtersJSON, imgsJSON, ingredientsJSON, stepsJSON []byte
+
+		err := rows.Scan(&recipe.Id, &recipe.Name, &recipe.Descr, &recipe.Diff,
+			&filtersJSON, &imgsJSON, &ingredientsJSON,
+			&stepsJSON, &recipe.Created_at, &recipe.Review_count, &recipe.Avg_rating, &recipe.AuthorName)
+		if err != nil {
+			log.Error("Error scanning row", sl.Err(err))
+			continue
+		}
+
+		json.Unmarshal(filtersJSON, &recipe.Filters)
+		json.Unmarshal(imgsJSON, &recipe.Imgs)
+		json.Unmarshal(ingredientsJSON, &recipe.Ingredients)
+		json.Unmarshal(stepsJSON, &recipe.Steps)
+
+		recipe.AuthorID = authorId
+
+		recipesMap[recipe.Id] = &recipe
+	}
+
+	for _, recipe := range recipesMap {
+		recipes = append(recipes, *recipe)
+	}
+
+	return recipes, nil
 }

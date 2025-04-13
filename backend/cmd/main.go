@@ -49,7 +49,9 @@ func main() {
 	}
 
 	dashboardRepo.StartReviewWorker(log)
+
 	redisClient, err := redis.InitRedis(cfg.Redis.Addr, cfg.Redis.Pass)
+
 	if err != nil {
 		log.Error("Error with redis connetion")
 	}

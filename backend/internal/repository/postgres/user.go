@@ -3,6 +3,7 @@ package postgres
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"log/slog"
 
 	"github.com/qwaq-dev/culina/pkg/logger/sl"
@@ -39,4 +40,13 @@ func (r *PostgresUserRepository) SelectUser(username string, log *slog.Logger) (
 		return nil, err
 	}
 	return user, nil
+}
+
+func (r *PostgresUserRepository) DeleteUser(userId int, log *slog.Logger) error {
+	err := r.DB.QueryRow("DELETE FROM users WHERE id = $1", userId)
+	if err != nil {
+		return fmt.Errorf("Error with deleting user")
+	}
+
+	return nil
 }

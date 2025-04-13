@@ -45,7 +45,7 @@ func InitRoutes(
 	profile.Post("/username", profileHandler.ChangeUsername)
 	profile.Post("/password", profileHandler.ChangePassword)
 	profile.Post("/sex", profileHandler.ChangeSex)
-	profile.Get("/recipe/:author", profileHandler.RecipesFromThisAutor)
+	profile.Get("/recipes", profileHandler.RecipesFromThisAutor)
 
 	//Routes for user
 	user.Post("/sign-in", userHandler.SignIn)

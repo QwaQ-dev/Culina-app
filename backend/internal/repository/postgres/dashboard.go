@@ -3,6 +3,7 @@ package postgres
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"log/slog"
 	"sync"
 
@@ -235,4 +236,13 @@ func (p *PostgresDashboardRepository) SelectReviewsByRecipeId(recipeId int, log 
 	log.Info("Fetched reviews", slog.Any("reviews", reviews))
 
 	return reviews, nil
+}
+
+func (p *PostgresDashboardRepository) DeleteRecipe(recipeId int, log *slog.Logger) error {
+	err := p.DB.QueryRow("DELETE FROM recipes WHERE id = $1", recipeId)
+	if err != nil {
+		return fmt.Errorf("Error with deleting user")
+	}
+
+	return nil
 }
