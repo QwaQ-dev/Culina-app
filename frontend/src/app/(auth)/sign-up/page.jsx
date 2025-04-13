@@ -1,9 +1,10 @@
 "use client"
 import AuthLayout from "../auth-layout";
-import { handlerSignUp } from "@/app/api/auth/signup";
+import { getCookie, handlerSignUp, setCookie } from "@/app/api/auth/signup";
 import { Montserrat } from "next/font/google";
-import { useState } from "react";
+import { use, useState } from "react";
 import { useRouter } from "next/navigation";
+
 
 const montserrat = Montserrat({
     subsets: ['latin'],
@@ -17,9 +18,10 @@ const lastComponent = <a href={"/sign-in"}>
 
 export default function SignUp() {
     const [name, setName] = useState("");
-    const [e_mail, setEmail] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null)
+
 
     const router = useRouter();
     
@@ -29,17 +31,17 @@ export default function SignUp() {
         setError(null)
 
         try {
-            if(!e_mail || !name || !password){
+            if(!email || !name || !password){
                 setError("All fields should be filled")
             }
-            const response = await handlerSignUp(e_mail, name, password);
-            if (response.data.JWT){
-                localStorage.setItem("token", response.data.JWT);
+            const response = await handlerSignUp(email, name, password);
+            console.log(response);
+            if(response.message == "Success!"){
                 router.push("/dashboard");
+
             }else{
-                setError("Something went wrong")
+                setError(response.message);
             }
-                    
         } catch (error) {
             setError(error.message || "User already exists")
             console.log(error)
@@ -59,7 +61,7 @@ export default function SignUp() {
                     >
                         <input 
                             type="text" 
-                            value = {e_mail} 
+                            value = {email} 
                             onChange={(e)=>{setEmail(e.target.value)}} 
                             placeholder="E-mail" 
                             name="email"  

@@ -5,24 +5,28 @@ export default function Connection(){
             <div className="mx-auto w-full">
                 <div className="flex p-10 mx-auto justify-center flex-col text-center">
                     {/* HIDE WHEN HAVING AT LEAST 1 MESSAGE */}
+{/*                     
                     <img src="gifs/profile-connection.gif" className=" w-64 h-64 mx-auto" alt="" />
-                    <p>Write whenever you need help!</p>
+                    <p>Write whenever you need help!</p> */}
+                    
+                
 
 
                 </div>
-                <div className="flex items-center relative">
-                    <div className="absolute left-36 flex">
-                        <img src="icons/add-image.svg" className="h-8 w-8 cursor-pointer" alt="Add" />
-                    </div>
-                    
-                    <input 
+                <div className=" w-3/4 mx-auto h-12  ">
+                    <div className="flex items-center relative justify-between border-2 border-black">
+                        <button>
+                            <img src="icons/add-image.svg" className="w-8 h-8" alt="" />
+                        </button>
+                        
+                        <input 
                         type="text" 
-                        placeholder="Type your message here..." 
-                        className="rounded-xl w-3/4 mx-auto h-14 bg-nedowhite border-black/20 border-2 p-2 pl-14 pr-16" 
-                    />
-
-                    <div className="absolute right-40">
-                        <img src="icons/send-message.svg" className="w-8 h-8 cursor-pointer" alt="Send" />
+                            placeholder="Type your message here..." 
+                            className="rounded-xl w-full bg-nedowhite focus:outline-none p-4" 
+                        />
+                        <button>
+                            <img src="icons/send-message.svg" className="w-8 h-8 cursor-pointer" alt="Send" />
+                        </button>
                     </div>
                 </div>
 

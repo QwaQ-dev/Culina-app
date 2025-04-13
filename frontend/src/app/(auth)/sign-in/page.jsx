@@ -34,11 +34,14 @@ export default function SignIn() {
                 setError("All fields should be filled")
             }
             const response = await handlerSignIn(name, password);
-            if (response.data.JWT){
-                localStorage.setItem("token", response.data.JWT);
+            console.log(response);
+            if (response.message == "Success!"){
                 router.push("/dashboard")
 
+            }else{
+                setError(response.message);
             }
+            
         }catch(err){
             setError("Incorrect username or password")
         }
@@ -69,7 +72,7 @@ export default function SignIn() {
                                 }}
                                 name = "password" 
                                 className="py-2 px-4 border-nedoblack border-2 rounded-lg"/>
-                            <button className="relative inline-block py-2 px-6 border-2  rounded-xl border-nedoblack text-sm text-nowrap sm:text-xl text-nedowhite bg-no-repeat hover:bg-gradient-to-hover bg-center bg-nedoblack transition-colors duration-300 hover:text-nedoblack hover:animate-fill-center hover:border-nedoblack">
+                            <button type="submit" className="relative inline-block py-2 px-6 border-2  rounded-xl border-nedoblack text-sm text-nowrap sm:text-xl text-nedowhite bg-no-repeat hover:bg-gradient-to-hover bg-center bg-nedoblack transition-colors duration-300 hover:text-nedoblack hover:animate-fill-center hover:border-nedoblack">
                                 Sign In
                             </button>
                             {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
