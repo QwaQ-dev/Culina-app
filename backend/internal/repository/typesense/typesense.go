@@ -3,6 +3,7 @@ package typesense
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log/slog"
 	"strings"
 
@@ -109,6 +110,7 @@ func (t *Typesense) AddRecipeToTypesense(recipe structures.Recipes) error {
 	res, err := client.Collection("recipes").Documents().Create(context.Background(), typesenseRecipe, &api.DocumentIndexParameters{})
 	if err != nil {
 		t.log.Error("Error inserting recipe into Typesense", sl.Err(err))
+		return fmt.Errorf("Error inserting recipe: %s", err.Error())
 	} else {
 		jsonRes, _ := json.MarshalIndent(res, "", "  ")
 		t.log.Info("Successfully inserted recipe into Typesense", slog.String("response", string(jsonRes)))

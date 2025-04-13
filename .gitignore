@@ -3,4 +3,5 @@
 /backend/config
 /frontend/node_modules
 .codegpt
+/backend/config/config.yaml
 .vscode

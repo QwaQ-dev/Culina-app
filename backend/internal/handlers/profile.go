@@ -95,5 +95,16 @@ func (h *ProfileHandler) ChangeSex(c *fiber.Ctx) error {
 }
 
 func (h *ProfileHandler) RecipesFromThisAutor(c *fiber.Ctx) error {
-	return nil
+	userId, _ := c.Locals("userId").(int)
+
+	recipes, err := h.repo.SelectUserRecipes(userId, h.log)
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"Error": "Error with getting users recipes",
+		})
+	}
+
+	return c.Status(200).JSON(fiber.Map{
+		"recipes": recipes,
+	})
 }

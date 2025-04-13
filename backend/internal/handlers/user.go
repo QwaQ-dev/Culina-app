@@ -103,17 +103,20 @@ func (h *UserHandler) SignUp(c *fiber.Ctx) error {
 	userId, err := h.repo.InsertUser(user, h.log)
 	if err != nil {
 		h.log.Error("Error with inserting user data into database", sl.Err(err))
+		return c.Status(500).JSON(fiber.Map{"error": "error with inserting data"})
 	}
 
 	accessToken, err := generatetoken.GenerateAccessToken(userId, h.cfg.JWTSecretKey)
 	if err != nil {
 		h.log.Error("Error with generating access token wile sign in", sl.Err(err))
+		h.repo.DeleteUser(userId, h.log)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Error with generating token wile sign in"})
 	}
 
 	refreshToken, err := generatetoken.GenerateRefreshToken(userId, h.cfg.JWTSecretKey)
 	if err != nil {
 		h.log.Error("Error with generating refresh token wile sign in", sl.Err(err))
+		h.repo.DeleteUser(userId, h.log)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Error with generating token wile sign in"})
 	}
 
@@ -122,6 +125,7 @@ func (h *UserHandler) SignUp(c *fiber.Ctx) error {
 	err = h.redisClient.Set(ctx, fmt.Sprintf("refresh_token:%d", userId), refreshToken, 120*time.Hour).Err()
 	if err != nil {
 		h.log.Error("Error with set refresh token to redis", sl.Err(err))
+		h.repo.DeleteUser(userId, h.log)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Error with refresh token"})
 	}
 

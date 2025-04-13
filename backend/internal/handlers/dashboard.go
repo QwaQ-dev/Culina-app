@@ -44,9 +44,11 @@ func (h *DashboardHandler) CreateRecipe(c *fiber.Ctx) error {
 	name := c.FormValue("name")
 	descr := c.FormValue("descr")
 	diff := c.FormValue("diff")
-	authorId, _ := strconv.Atoi(c.FormValue("authorid"))
+	authorId, _ := c.Locals("userId").(int)
 
+	h.log.Info("authorId", authorId)
 	var filters []string
+
 	ingredients := make(map[string]string)
 	steps := make(map[string]string)
 
@@ -104,7 +106,12 @@ func (h *DashboardHandler) CreateRecipe(c *fiber.Ctx) error {
 
 	recipe.Id = id
 
-	h.ts.AddRecipeToTypesense(recipe)
+	err = h.ts.AddRecipeToTypesense(recipe)
+	if err != nil {
+		os.Remove(dirName)
+		h.repo.DeleteRecipe(recipe.Id, h.log)
+		return c.Status(500).JSON(fiber.Map{"error": "Error with inserting recipe to typesense"})
+	}
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "Recipe was upload successfully",
@@ -178,7 +185,7 @@ func (h *DashboardHandler) SearchByTypesense(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"recipes found": recipes,
+		"recipes_found": recipes,
 	})
 }
 
