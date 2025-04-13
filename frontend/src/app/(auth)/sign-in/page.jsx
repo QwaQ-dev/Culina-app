@@ -34,11 +34,14 @@ export default function SignIn() {
                 setError("All fields should be filled")
             }
             const response = await handlerSignIn(name, password);
-            if (response.data.JWT){
-                localStorage.setItem("token", response.data.JWT);
+            console.log(response);
+            if (response.message == "Success!"){
                 router.push("/dashboard")
 
+            }else{
+                setError(response.message);
             }
+            
         }catch(err){
             setError("Incorrect username or password")
         }
